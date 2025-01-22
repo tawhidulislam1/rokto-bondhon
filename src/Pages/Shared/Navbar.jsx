@@ -1,5 +1,6 @@
 
 import { MdBloodtype } from "react-icons/md";
+import { Link } from "react-router-dom";
 const Navbar = () => {
     const links = <>
         <li><a>donation requests</a></li>
@@ -39,7 +40,9 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn">Login</a>
+                <Link to={'/login'}>
+                    <button className="btn">Login</button>
+                </Link>
             </div>
         </div>
     );
