@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import useAxosPublic from "../../Hooks/useAxiosPublic";
 
 const Register = () => {
     const [districts, setDistricts] = useState([]);
@@ -32,8 +33,21 @@ const Register = () => {
 
     const { register,
         handleSubmit,
+        watch,
         formState: { errors }, } = useForm();
-    const onSubmit = (data) => console.log(data);
+    const password = watch("password");
+    const imageHostingKey = import.meta.env.VITE_IMAGE_API;
+    const imageHostingApi = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
+    const axiosPublic = useAxosPublic();
+    const onSubmit = async (data) => {
+        const image = { image: data.image[0] };
+        const res = await axiosPublic.post(imageHostingApi, image, {
+            headers: {
+                'content-type': "multipart/form-data"
+            }
+        });
+        console.log("data ", data);
+    };
     return (
         <div className="hero bg-gray-100 min-h-screen flex items-center justify-center">
             <div className="hero-content max-w-4xl w-full px-4">
@@ -56,6 +70,7 @@ const Register = () => {
                                 className="input input-bordered border-gray-300 outline-none"
                                 required
                             />
+                            {errors.email && <span className="text-red-700">field is required</span>}
                         </div>
                         <div className="form-control">
                             <label className="label">
@@ -69,6 +84,7 @@ const Register = () => {
                                 className="input input-bordered border-gray-300 outline-none"
                                 required
                             />
+                            {errors.name && <span className="text-red-700">Name field is required</span>}
                         </div>
                         <div className="form-control">
                             <label className="label">
@@ -81,6 +97,8 @@ const Register = () => {
                                 className="input input-bordered border-gray-300 outline-none"
                                 required
                             />
+                            {errors.image && <span className="text-red-700"> field is required</span>}
+
                         </div>
 
                         <div className="form-control">
@@ -93,6 +111,8 @@ const Register = () => {
                                 {...register("bloodGroup", { required: true })}
                                 required
                             >
+                                {errors.bloodGroup && <span className="text-red-700"> field is required</span>}
+
                                 <option value="default" disabled>
                                     Choose a blood group
                                 </option>
@@ -120,6 +140,8 @@ const Register = () => {
                                 onChange={handleDistrictChange}
                                 required
                             >
+                                {errors.district && <span className="text-red-700"> field is required</span>}
+
                                 <option value="default" disabled >
                                     Choose a district
                                 </option>
@@ -145,6 +167,8 @@ const Register = () => {
                                 disabled={!selectedDistrict}
                                 className="select select-bordered border-gray-300"
                             >
+                                {errors.upajela && <span className="text-red-700"> field is required</span>}
+
                                 <option value="">Select a district first</option>
                                 {upjelas.map((upazila) => (
                                     <option key={upazila.id} value={upazila.name}>
@@ -166,6 +190,8 @@ const Register = () => {
                                 className="input input-bordered border-gray-300 outline-none"
                                 required
                             />
+                            {errors.password && <span className="text-red-700"> field is required</span>}
+
                         </div>
                         <div className="form-control">
                             <label className="label">
@@ -174,11 +200,17 @@ const Register = () => {
                             <input
                                 type="password"
                                 name="confo_password"
-                                {...register("confo_password", { required: true })}
+                                {...register("confo_password", {
+                                    required: true,
+                                    validate: (value) =>
+                                        value === password || "Passwords do not match",
+                                })}
                                 placeholder="Enter your password"
                                 className="input input-bordered border-gray-300 outline-none"
                                 required
                             />
+                            {errors.confo_password && <span className="text-red-700"> Please confirm your password</span>}
+
                         </div>
 
                         <div className="form-control mt-6">
