@@ -1,16 +1,28 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 
 const Login = () => {
+    const { logIn } = useAuth();
+    const navigate = useNavigate();
     const handleSubmit = e => {
+
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        const loginInfo = {
-            email, password
-        };
-        console.log(loginInfo);
+
+        logIn(email, password)
+            .then(result => {
+                console.log(result.user);
+                Swal.fire({
+                    title: "Login Successfully!",
+                    icon: "success",
+                    draggable: true
+                });
+                navigate('/');
+            });
 
     };
     return (

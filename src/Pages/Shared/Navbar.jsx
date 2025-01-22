@@ -1,7 +1,20 @@
 
 import { MdBloodtype } from "react-icons/md";
 import { Link } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
+import { toast } from "react-toastify";
 const Navbar = () => {
+    const { user, logOut } = useAuth();
+    const handleLogOut = () => {
+        logOut()
+            .then(() => {
+                toast.success("YOur are logout now");
+            })
+            .catch((error) => {
+                console.error("Logout failed:", error);
+            });
+    };
+    console.log(user);
     const links = <>
         <li><a>donation requests</a></li>
         <li><a>blog</a></li>
@@ -40,9 +53,39 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <Link to={'/login'}>
-                    <button className="btn">Login</button>
-                </Link>
+                {
+                    user ? <>
+                        <>
+
+
+                            <div className="dropdown dropdown-end">
+                                <div tabIndex={0} role="button" >
+                                    <div className="tooltip " data-tip={user?.displayName}>
+                                        <img
+                                            src={user?.photoURL}
+                                            title={user?.displayName}
+                                            alt="User Avatar"
+                                            className="rounded-full w-14 ml-2"
+                                        />
+
+                                    </div>
+                                </div>
+                                <ul
+                                    tabIndex={0}
+                                    className="menu menu-sm dropdown-content  bg-[#DC143C] rounded-box z-[1] mt-3 w-52 p-2 shadow">
+
+                                    <li><Link to={'/create-assignment'}>Create Assignment</Link></li>
+                                    <li><button onClick={handleLogOut} >Logout</button></li>
+                                </ul>
+                            </div>
+                        </>
+                    </> : <>
+                        <Link to={'/login'}> <button className="btn">Login</button></Link>
+                    </>
+                }
+
+
+
             </div>
         </div>
     );

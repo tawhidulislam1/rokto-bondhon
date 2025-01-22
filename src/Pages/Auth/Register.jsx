@@ -2,12 +2,24 @@ import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useAxosPublic from "../../Hooks/useAxiosPublic";
 import { AuthContext } from "../../Provider/AuthProvider";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [districts, setDistricts] = useState([]);
     const [selectedDistrict, setSelectedDistrict] = useState('');
     const [upjelas, setUpjelas] = useState([]);
     const [selectedupjela, setSelectedUpjela] = useState('');
+    const { register,
+        handleSubmit,
+        watch,
+        formState: { errors }, } = useForm();
+    const password = watch("password");
+    const imageHostingKey = import.meta.env.VITE_IMAGE_API;
+    const imageHostingApi = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
+    const axiosPublic = useAxosPublic();
+    const { createUser, updateUser } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     // Fetch districts
     useEffect(() => {
@@ -32,17 +44,10 @@ const Register = () => {
         setSelectedDistrict(district);
     };
 
-    const { register,
-        handleSubmit,
-        watch,
-        formState: { errors }, } = useForm();
-    const password = watch("password");
-    const imageHostingKey = import.meta.env.VITE_IMAGE_API;
-    const imageHostingApi = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
-    const axiosPublic = useAxosPublic();
-    const { createUser, updateUser } = useContext(AuthContext);
+
+
     const onSubmit = async (data) => {
-        const images= { image: data.image[0] };
+        const images = { image: data.image[0] };
         const res = await axiosPublic.post(imageHostingApi, images, {
             headers: {
                 'content-type': "multipart/form-data"
@@ -57,7 +62,14 @@ const Register = () => {
                 console.log(res);
                 updateUser(data.name, image)
                     .then(() => {
-                        console.log("success");
+                        Swal.fire({
+                            position: "top-center",
+                            icon: "success",
+                            title: "Your account has been created",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        navigate('/');
 
                     });
             })
