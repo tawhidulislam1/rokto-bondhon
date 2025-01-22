@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useAxosPublic from "../../Hooks/useAxiosPublic";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Register = () => {
     const [districts, setDistricts] = useState([]);
@@ -39,14 +40,33 @@ const Register = () => {
     const imageHostingKey = import.meta.env.VITE_IMAGE_API;
     const imageHostingApi = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
     const axiosPublic = useAxosPublic();
+    const { createUser, updateUser } = useContext(AuthContext);
     const onSubmit = async (data) => {
-        const image = { image: data.image[0] };
-        const res = await axiosPublic.post(imageHostingApi, image, {
+        const images= { image: data.image[0] };
+        const res = await axiosPublic.post(imageHostingApi, images, {
             headers: {
                 'content-type': "multipart/form-data"
             }
         });
-        console.log("data ", data);
+        const image = res.data.data.url;
+        console.log(res, data);
+
+        createUser(data.email, data.password)
+            .then(res => {
+
+                console.log(res);
+                updateUser(data.name, image)
+                    .then(() => {
+                        console.log("success");
+
+                    });
+            })
+
+            .catch((error) => {
+                const errorMessage = error.message;
+                console.log(errorMessage);
+            });
+
     };
     return (
         <div className="hero bg-gray-100 min-h-screen flex items-center justify-center">

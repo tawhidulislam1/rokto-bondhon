@@ -21,10 +21,10 @@ const AuthProvider = ({ children }) => {
         setLoading(true);
         return signOut(auth);
     };
-    const updateUser = (name, image) => {
+    const updateUser = (name, PhotoUrl) => {
         setLoading(true);
         return updateProfile(auth.currentUser, {
-            displayName: name, photoURL: image,
+            displayName: name, photoURL: PhotoUrl,
         });
     };
     useEffect(() => {
