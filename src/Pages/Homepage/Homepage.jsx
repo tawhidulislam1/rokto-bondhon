@@ -1,3 +1,4 @@
+import Featured from "./Components/Featured";
 import Header from "./Components/Header";
 
 const Homepage = () => {
@@ -6,6 +7,9 @@ const Homepage = () => {
             <header>
                 <Header></Header>
             </header>
+            <section>
+                <Featured></Featured>
+            </section>
         </div>
     );
 };
