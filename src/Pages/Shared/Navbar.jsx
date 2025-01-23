@@ -3,6 +3,7 @@ import { MdBloodtype } from "react-icons/md";
 import { Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
+import { FaSignOutAlt } from "react-icons/fa";
 const Navbar = () => {
     const { user, logOut } = useAuth();
     const handleLogOut = () => {
@@ -74,8 +75,8 @@ const Navbar = () => {
                                     tabIndex={0}
                                     className="menu menu-sm dropdown-content  bg-[#DC143C] rounded-box z-[1] mt-3 w-52 p-2 shadow">
 
-                                    <li><Link to={'/create-assignment'}>Create Assignment</Link></li>
-                                    <li><button onClick={handleLogOut} >Logout</button></li>
+                                    <li><Link to={'/create-assignment'}>Dashboard</Link></li>
+                                    <li><button onClick={handleLogOut} ><FaSignOutAlt></FaSignOutAlt> Logout</button></li>
                                 </ul>
                             </div>
                         </>

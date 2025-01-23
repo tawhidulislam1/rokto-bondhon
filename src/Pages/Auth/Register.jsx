@@ -47,12 +47,9 @@ const Register = () => {
 
 
     const onSubmit = async (data) => {
-        const images = { image: data.image[0] };
-        const res = await axiosPublic.post(imageHostingApi, images, {
-            headers: {
-                'content-type': "multipart/form-data"
-            }
-        });
+        const formData = new FormData();
+        formData.append("image", data.image[0]);
+        const res = await axiosPublic.post(imageHostingApi, formData);
         const image = res.data.data.url;
         console.log(res, data);
 
@@ -60,15 +57,33 @@ const Register = () => {
             .then(res => {
 
                 console.log(res);
+                const userInfo = {
+                    name: data.name,
+                    email: data.email,
+                    image: image,
+                    bloodGroup: data.bloodGroup,
+                    district: data.district,
+                    upajela: data.upajela,
+                    role: "donor",
+                    status: "active",
+                };
+                console.log(userInfo);
                 updateUser(data.name, image)
                     .then(() => {
-                        Swal.fire({
-                            position: "top-center",
-                            icon: "success",
-                            title: "Your account has been created",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+                        axiosPublic.post("/user", userInfo)
+                            .then(res => {
+                                console.log(res);
+                                if (res.data.insertedId) {
+                                    Swal.fire({
+                                        position: "top-center",
+                                        icon: "success",
+                                        title: "Your account has been created",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }
+                            });
+
                         navigate('/');
 
                     });
@@ -140,6 +155,7 @@ const Register = () => {
                             <select
                                 className="select select-bordered border-gray-300"
                                 name="bloodGroup"
+                                defaultValue={"default"}
                                 {...register("bloodGroup", { required: true })}
                                 required
                             >
@@ -168,6 +184,7 @@ const Register = () => {
                             <select
                                 className="select select-bordered border-gray-300"
                                 name="district"
+                                defaultValue={"default"}
                                 {...register("district", { required: true })}
                                 onChange={handleDistrictChange}
                                 required
@@ -193,7 +210,8 @@ const Register = () => {
                             </label>
                             <select
                                 id="upazilas"
-                                value={selectedupjela}
+                                defaultValue={"default"}
+
                                 {...register("upajela", { required: true })}
                                 onChange={(e) => setSelectedUpjela(e.target.value)}
                                 disabled={!selectedDistrict}
