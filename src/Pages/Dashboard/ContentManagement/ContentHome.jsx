@@ -13,6 +13,23 @@ const ContentHome = () => {
             return res.data;
         }
     });
+    const handleStatusChange = (user) => {
+        const newStatus = user.status === "draft" ? "publised" : "draft";
+        axiosSecure.patch(`/blog/${user._id}`, { status: newStatus })
+            .then((res) => {
+                if (res.data.modifiedCount > 0) {
+                    Swal.fire({
+                        title: "Status Updated!",
+                        text: `your blog is now ${newStatus}`,
+                        icon: "success",
+                    });
+                    refetch();
+                }
+            })
+            .catch(() => {
+                Swal.fire("Error", "Failed to update status", "error");
+            });
+    };
     return (
         <div>
             <Link to={'/dashboard/add-blog'}>
@@ -54,7 +71,14 @@ const ContentHome = () => {
                                         {blog.title}
 
                                     </td>
-                                    <td>{blog.status}</td>
+                                    <td>
+                                        <button
+                                            className={`btn ${blog.status === "publised" ? "btn-success" : "btn-error"} btn-sm`}
+                                            onClick={() => handleStatusChange(blog)}
+                                        >
+                                            {blog.status === "publised" ? "publised (Click to draft)" : "draft (Click to publised)"}
+                                        </button>
+                                    </td>
                                     <th>
                                         <button
                                             onClick={() =>
@@ -70,9 +94,9 @@ const ContentHome = () => {
 
                                                     if (result.isConfirmed) {
                                                         axiosSecure.delete(`/blog/${blog._id}`)
-                                                        .then((res) => {
-                                                            console.log(`${blog._id}` );
-                                                            if (res.data.deletedCount > 0) {
+                                                            .then((res) => {
+                                                                console.log(`${blog._id}`);
+                                                                if (res.data.deletedCount > 0) {
                                                                     Swal.fire("Deleted!", "User has been deleted.", "success");
                                                                     refetch();
                                                                 }
