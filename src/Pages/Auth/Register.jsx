@@ -10,6 +10,7 @@ const Register = () => {
     const [selectedDistrict, setSelectedDistrict] = useState('');
     const [upjelas, setUpjelas] = useState([]);
     const [selectedupjela, setSelectedUpjela] = useState('');
+    console.log(selectedupjela);
     const { register,
         handleSubmit,
         watch,
