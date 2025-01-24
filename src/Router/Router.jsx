@@ -8,6 +8,7 @@ import Register from "../Pages/Auth/Register";
 import DashboardLayout from "../Layout/DashboardLayout";
 import UserHome from "../Pages/Dashboard/UserHome/UserHome";
 import AllUser from "../Pages/Dashboard/AllUser/AllUser";
+import CreateReq from "../Pages/Dashboard/CreateReq/CreateReq";
 
 
 const router = createBrowserRouter([
@@ -37,6 +38,12 @@ const router = createBrowserRouter([
                 path: "userHome",
                 element: <UserHome></UserHome>
             },
+            {
+                path: "create-donation-request",
+                element: <CreateReq></CreateReq>
+            },
+
+            //admin
             {
                 path: "users",
                 element: <AllUser></AllUser>

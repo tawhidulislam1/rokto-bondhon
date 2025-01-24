@@ -7,13 +7,13 @@ import { FaBookBookmark, } from 'react-icons/fa6';
 import { IoIosClose } from 'react-icons/io';
 import { MdMenu, MdOutlineBloodtype } from 'react-icons/md';
 import { NavLink, Outlet } from 'react-router-dom';
-import useAdmin from '../Hooks/useAdmin';
+
 
 
 const DashboardLayout = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const isAdmin = false;
-    const isVolunteer = true;
+    // const isVolunteer = true;
     return (
         <div>
             <div className="flex flex-col sm:flex-row">
