@@ -1,3 +1,4 @@
+import { useLoaderData } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
@@ -5,7 +6,9 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
-const CreateReq = () => {
+const UpdateReq = () => {
+    const { recipientName, requestMessage, donationtime, donationDate, bloodGroup, fullAddress, hospitalName, upajela, district, _id } = useLoaderData();
+    console.log(recipientName);
     const { user } = useAuth();
     const [districts, setDistricts] = useState([]);
     const [selectedDistrict, setSelectedDistrict] = useState(null);
@@ -17,40 +20,58 @@ const CreateReq = () => {
 
     useEffect(() => {
         fetch("/districts.json")
-            .then(res => res.json())
-            .then(data => setDistricts(data));
+            .then((res) => res.json())
+            .then((data) => setDistricts(data));
     }, []);
+
+    useEffect(() => {
+        if (district && districts.length > 0) {
+            const preloadedDistrict = districts.find((d) => d.name === district);
+            if (preloadedDistrict) {
+                setSelectedDistrict(preloadedDistrict);
+            }
+        }
+    }, [district, districts]);
 
     useEffect(() => {
         if (selectedDistrict) {
             fetch("/upazilas.json")
-                .then(res => res.json())
-                .then(data => {
-                    const filteredUpazilas = data.filter(upazila => upazila.district_id === selectedDistrict.id);
+                .then((res) => res.json())
+                .then((data) => {
+                    const filteredUpazilas = data.filter(
+                        (upazila) => upazila.district_id === selectedDistrict.id
+                    );
                     setUpjelas(filteredUpazilas);
                 });
         }
     }, [selectedDistrict]);
 
+    useEffect(() => {
+        if (upajela) {
+            setSelectedUpjela(upajela);
+        }
+    }, [upajela]);
+
+
     const handleDistrictChange = (e) => {
         const districtName = e.target.value;
-        const district = districts.find(d => d.name === districtName);
+        const district = districts.find((d) => d.name === districtName);
         setSelectedDistrict(district);
         setSelectedUpjela('');
+        if (district) {
+            fetch("/upazilas.json")
+                .then((res) => res.json())
+                .then((data) => {
+                    const filteredUpazilas = data.filter((upazila) => upazila.district_id === district.id);
+                    setUpjelas(filteredUpazilas);
+                });
+        }
     };
 
     const onSubmit = (data) => {
         console.log(selectedUpjela);
-        if (user.status === "blocked") {
-            Swal.fire({
-                position: "top-center",
-                icon: "error",
-                title: "Your account has been blocked. Please contact support.",
-                showConfirmButton: false,
-                timer: 1500
-            });
-            return;
-        }
+
+
         const reqInfo = {
             name: user?.displayName || "",
             email: user?.email || "",
@@ -66,13 +87,13 @@ const CreateReq = () => {
             status: "pending"
         };
 
-        axiosSecure.post("bloodReq", reqInfo)
+        axiosSecure.patch(`/bloodReq/update/${_id}`, reqInfo)
             .then(res => {
-                if (res.data.insertedId) {
+                if (res.data.modifiedCount > 0) {
                     Swal.fire({
                         position: "top-center",
                         icon: "success",
-                        title: "Your account has been created",
+                        title: "Your Blood Request Updated ",
                         showConfirmButton: false,
                         timer: 1500
                     });
@@ -80,7 +101,6 @@ const CreateReq = () => {
                 navigate('/dashboard/my-donation-requests');
             });
     };
-
     return (
         <div className="container mx-auto p-6 bg-white rounded-lg shadow-lg">
             <h2 className="text-3xl text-center font-semibold mb-6">Create Donation Request</h2>
@@ -113,6 +133,7 @@ const CreateReq = () => {
                         <input
                             type="text"
                             name="recipientName"
+                            defaultValue={recipientName}
                             {...register("recipientName", { required: "Recipient name is required" })}
                             className="input input-bordered border-gray-300 outline-none"
                         />
@@ -122,42 +143,39 @@ const CreateReq = () => {
                     <div className="flex flex-col">
                         <label htmlFor="recipientDistrict" className="text-lg">Recipient District</label>
                         <select
-                            className="select select-bordered border-gray-300 outline-none"
                             name="district"
-                            defaultValue="default"
+                            value={selectedDistrict?.name || "default"} // Use controlled value
                             {...register("district", { required: "District is required" })}
                             onChange={handleDistrictChange}
-                            required
+                            className="select select-bordered border-gray-300 outline-none"
                         >
-                            {errors.district && <span className="text-red-700">Field is required</span>}
-                            <option value="default" disabled>
-                                Choose a district
-                            </option>
+                            <option value="default" disabled>Choose a district</option>
                             {districts.map((district) => (
                                 <option key={district.id} value={district.name}>
                                     {district.name} ({district.bn_name})
                                 </option>
                             ))}
                         </select>
+
                     </div>
 
                     <div className="flex flex-col">
                         <label htmlFor="recipientUpazila" className="text-lg">Recipient Upazila</label>
                         <select
                             id="upazilas"
+                            value={upajela || ""}
                             {...register("upajela", { required: "Upazila is required" })}
                             onChange={(e) => setSelectedUpjela(e.target.value)}
-                            disabled={!selectedDistrict}
                             className="select select-bordered border-gray-300 outline-none"
                         >
-                            {errors.upajela && <span className="text-red-700">{errors.upajela.message}</span>}
-                            <option value="" disabled>Select a district first</option>
+                            <option value="default" disabled>Select a district first</option>
                             {upjelas.map((upazila) => (
                                 <option key={upazila.id} value={upazila.name}>
                                     {upazila.name}
                                 </option>
                             ))}
                         </select>
+                        {errors.upajela && <span className="text-red-700">{errors.upajela.message}</span>}
                     </div>
 
                     <div className="flex flex-col">
@@ -165,6 +183,7 @@ const CreateReq = () => {
                         <input
                             type="text"
                             name="hospitalName"
+                            defaultValue={hospitalName}
                             {...register("hospitalName", { required: "Hospital name is required" })}
                             className="input input-bordered border-gray-300 outline-none"
                         />
@@ -176,6 +195,7 @@ const CreateReq = () => {
                         <input
                             type="text"
                             name="fullAddress"
+                            defaultValue={fullAddress}
                             {...register("fullAddress", { required: "Full address is required" })}
                             className="input input-bordered border-gray-300 outline-none"
                         />
@@ -186,6 +206,7 @@ const CreateReq = () => {
                         <label htmlFor="bloodGroup" className="text-lg">Blood Group</label>
                         <select
                             name="bloodGroup"
+                            defaultValue={bloodGroup}
                             {...register("bloodGroup", { required: "Blood group is required" })}
                             className="select select-bordered border-gray-300 outline-none"
                         >
@@ -207,6 +228,7 @@ const CreateReq = () => {
                         <input
                             type="date"
                             name="donationDate"
+                            defaultValue={donationDate}
                             {...register("donationDate", { required: "Donation date is required" })}
                             className="input input-bordered border-gray-300 outline-none"
                         />
@@ -218,6 +240,7 @@ const CreateReq = () => {
                         <input
                             type="time"
                             name="donationTime"
+                            defaultValue={donationtime}
                             {...register("donationTime", { required: "Donation time is required" })}
                             className="input input-bordered border-gray-300 outline-none"
                         />
@@ -228,6 +251,7 @@ const CreateReq = () => {
                         <label htmlFor="requestMessage" className="text-lg">Request Message</label>
                         <textarea
                             name="requestMessage"
+                            defaultValue={requestMessage}
                             {...register("requestMessage", { required: "Request message is required" })}
                             className="textarea textarea-bordered border-gray-300 outline-none"
                         />
@@ -243,4 +267,4 @@ const CreateReq = () => {
     );
 };
 
-export default CreateReq;
+export default UpdateReq;

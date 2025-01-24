@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const ShowReq = () => {
     const AxiosSecure = useAxiosSecure();
@@ -11,7 +12,7 @@ const ShowReq = () => {
     const { data: donations = [], refetch } = useQuery({
         queryKey: ["user"],
         queryFn: async () => {
-            const res = await AxiosSecure.get(`/bloodReq/${user?.email}`);
+            const res = await AxiosSecure.get(`/bloodReq/email/${user?.email}`);
             return res.data;
         },
     });
@@ -109,7 +110,9 @@ const ShowReq = () => {
                                     Delete
                                 </button>
                                 <button className="btn btn-info ml-2">View</button>
-                                <button className="btn btn-warning ml-2">Edit</button>
+                                <Link to={`/dashboard/udpateReq/${donation._id}`}>
+                                    <button className="btn btn-warning ml-2">Edit</button>
+                                </Link>
                             </td>
                         </tr>
                     ))}
