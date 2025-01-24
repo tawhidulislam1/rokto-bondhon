@@ -35,7 +35,7 @@ const CreateReq = () => {
         const districtName = e.target.value;
         const district = districts.find(d => d.name === districtName);
         setSelectedDistrict(district);
-        setSelectedUpjela(''); 
+        setSelectedUpjela('');
     };
 
     const onSubmit = (data) => {
@@ -52,7 +52,18 @@ const CreateReq = () => {
             donationDate: data.donationDate,
             donationtime: data.donationTime,
             requestMessage: data.requestMessage,
+            status: "pending"
         };
+        if (user.status !== "blocked") {
+            Swal.fire({
+                position: "top-center",
+                icon: "error",
+                title: "Your account has been Blocked",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return;
+        }
         axiosSecure.post("bloodReq", reqInfo)
             .then(res => {
                 if (res.data.insertedId) {

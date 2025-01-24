@@ -42,6 +42,10 @@ const router = createBrowserRouter([
                 path: "create-donation-request",
                 element: <CreateReq></CreateReq>
             },
+            {
+                path: "my-donation-requests",
+                element: <CreateReq></CreateReq>
+            },
 
             //admin
             {
