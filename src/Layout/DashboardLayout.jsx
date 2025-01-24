@@ -12,7 +12,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 
 const DashboardLayout = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
-    const isAdmin = false;
+    const isAdmin = true;
     // const isVolunteer = true;
     return (
         <div>

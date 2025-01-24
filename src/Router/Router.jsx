@@ -11,6 +11,10 @@ import AllUser from "../Pages/Dashboard/AllUser/AllUser";
 import CreateReq from "../Pages/Dashboard/CreateReq/CreateReq";
 import ShowReq from "../Pages/Dashboard/ShowRq/ShowReq";
 import UpdateReq from "../Pages/Dashboard/UpdateReq/UpdateReq";
+import UserProfile from "../Pages/Dashboard/UserProfile/UserProfile";
+import AllRequest from "../Pages/Dashboard/AllRequest/AllRequest";
+import ContentHome from "../Pages/Dashboard/ContentManagement/ContentHome";
+import AddBlog from "../Pages/Dashboard/ContentManagement/AddBlog";
 
 
 const router = createBrowserRouter([
@@ -37,6 +41,10 @@ const router = createBrowserRouter([
         element: <DashboardLayout></DashboardLayout>,
         children: [
             {
+                path: "profile",
+                element: <UserProfile></UserProfile>
+            },
+            {
                 path: "userHome",
                 element: <UserHome></UserHome>
             },
@@ -58,6 +66,18 @@ const router = createBrowserRouter([
             {
                 path: "users",
                 element: <AllUser></AllUser>
+            },
+            {
+                path: "all-blood-donation-request",
+                element: <AllRequest></AllRequest>
+            },
+            {
+                path: "content-management",
+                element: <ContentHome></ContentHome>
+            },
+            {
+                path: "add-blog",
+                element: <AddBlog></AddBlog>
             },
         ]
     }

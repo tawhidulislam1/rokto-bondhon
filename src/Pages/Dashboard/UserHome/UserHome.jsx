@@ -1,8 +1,133 @@
-
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAuth from "../../../Hooks/useAuth";
+import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 const UserHome = () => {
+    const { user } = useAuth();
+    const AxiosSecure = useAxiosSecure();
+    // Fetch all users
+    const { data: donations = [], refetch } = useQuery({
+        queryKey: ["user"],
+        queryFn: async () => {
+            const res = await AxiosSecure.get(`/bloodReq/email/${user?.email}`);
+            return res.data;
+        },
+    });
+
+    console.log(donations);
+    const sortedDonations = [...donations].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+
+    // Slice to get the latest 3 donations
+    const newRequest = sortedDonations.slice(0, 3);
+    const updateStatus = (id, status) => {
+        AxiosSecure.patch(`/bloodReq/${id}`, { status: status })
+            .then(res => {
+                if (res.data.modifiedCount > 0) {
+                    Swal.fire({
+                        title: "Role Updated!",
+                        text: `Your Blood Is Found`,
+                        icon: "success",
+                    });
+                    refetch();
+                }
+            });
+    };
+    const handleDelete = id => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                AxiosSecure.delete(`/bloodReq/${id}`)
+                    .then(res => {
+                        if (res.data.deletedCount > 0) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                            refetch();
+                        };
+                    });
+            }
+        });
+    };
+
     return (
         <div>
-            <h3>userhome</h3>
+            <h3 className="text-3xl">Welcome Come back, <strong>{user?.displayName}</strong></h3>
+            {donations && <>
+                <div className="container mx-auto p-6">
+                    <h2 className="text-3xl font-semibold text-center mb-6">Recent Donation Requests</h2>
+
+                    <table className="table-auto w-full border-collapse">
+                        <thead>
+                            <tr>
+                                <th className="px-4 py-2 border">Recipient Name</th>
+                                <th className="px-4 py-2 border">Location</th>
+                                <th className="px-4 py-2 border">Donation Date</th>
+                                <th className="px-4 py-2 border">Donation Time</th>
+                                <th className="px-4 py-2 border">Blood Group</th>
+                                <th className="px-4 py-2 border">Status</th>
+                                <th className="px-4 py-2 border">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {newRequest.map((donation, index) => (
+                                <tr key={index} className="hover:bg-gray-100">
+                                    <td className="px-4 py-2 border">{donation.recipientName}</td>
+                                    <td className="px-4 py-2 border">
+                                        {donation.district}, {donation.upajela}
+                                    </td>
+                                    <td className="px-4 py-2 border">{donation.donationDate}</td>
+                                    <td className="px-4 py-2 border">{donation.donationtime}</td>
+                                    <td className="px-4 py-2 border">{donation.bloodGroup}</td>
+                                    <td className="px-4 py-2 border">{donation.status}
+                                        {donation.status === "inprogress" && (
+                                            <>
+                                                <button
+                                                    onClick={() => updateStatus(donation._id, "done")}
+                                                    className="btn btn-sm btn-success mr-2"
+                                                >
+                                                    Done
+                                                </button>
+                                                <button
+                                                    onClick={() => updateStatus(donation._id, "canceled")}
+                                                    className="btn btn-sm btn-danger"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </>
+                                        )}
+                                    </td>
+                                    <td className="px-4 py-2 border flex">
+
+                                        <button
+                                            onClick={() => handleDelete(donation._id)}
+                                            className="btn btn-danger ml-2"
+                                        >
+                                            Delete
+                                        </button>
+                                        <button className="btn btn-info ml-2">View</button>
+                                        <Link to={`/dashboard/udpateReq/${donation._id}`}>
+                                            <button className="btn btn-warning ml-2">Edit</button>
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </>}
         </div>
     );
 };

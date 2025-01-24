@@ -63,7 +63,8 @@ const CreateReq = () => {
             donationDate: data.donationDate,
             donationtime: data.donationTime,
             requestMessage: data.requestMessage,
-            status: "pending"
+            status: "pending",
+            createdAt: new Date(),
         };
 
         axiosSecure.post("bloodReq", reqInfo)
