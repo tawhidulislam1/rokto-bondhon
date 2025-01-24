@@ -9,6 +9,7 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import UserHome from "../Pages/Dashboard/UserHome/UserHome";
 import AllUser from "../Pages/Dashboard/AllUser/AllUser";
 import CreateReq from "../Pages/Dashboard/CreateReq/CreateReq";
+import ShowReq from "../Pages/Dashboard/ShowRq/ShowReq";
 
 
 const router = createBrowserRouter([
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "my-donation-requests",
-                element: <CreateReq></CreateReq>
+                element: <ShowReq></ShowReq>
             },
 
             //admin

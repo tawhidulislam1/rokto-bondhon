@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const CreateReq = () => {
     const { user } = useAuth();
@@ -11,18 +12,18 @@ const CreateReq = () => {
     const [upjelas, setUpjelas] = useState([]);
     const [selectedUpjela, setSelectedUpjela] = useState('');
     const axiosSecure = useAxiosSecure();
-
+    const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     useEffect(() => {
-        fetch("../../../../public/districts.json")
+        fetch("/districts.json")
             .then(res => res.json())
             .then(data => setDistricts(data));
     }, []);
 
     useEffect(() => {
         if (selectedDistrict) {
-            fetch("../../../../public/upazilas.json")
+            fetch("/upazilas.json")
                 .then(res => res.json())
                 .then(data => {
                     const filteredUpazilas = data.filter(upazila => upazila.district_id === selectedDistrict.id);
@@ -39,7 +40,17 @@ const CreateReq = () => {
     };
 
     const onSubmit = (data) => {
-
+        console.log(selectedUpjela);
+        if (user.status === "blocked") {
+            Swal.fire({
+                position: "top-center",
+                icon: "error",
+                title: "Your account has been blocked. Please contact support.",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return;
+        }
         const reqInfo = {
             name: user?.displayName || "",
             email: user?.email || "",
@@ -52,18 +63,9 @@ const CreateReq = () => {
             donationDate: data.donationDate,
             donationtime: data.donationTime,
             requestMessage: data.requestMessage,
-            status: "pending"
+            status: "inprogress"
         };
-        if (user.status !== "blocked") {
-            Swal.fire({
-                position: "top-center",
-                icon: "error",
-                title: "Your account has been Blocked",
-                showConfirmButton: false,
-                timer: 1500
-            });
-            return;
-        }
+
         axiosSecure.post("bloodReq", reqInfo)
             .then(res => {
                 if (res.data.insertedId) {
@@ -75,6 +77,7 @@ const CreateReq = () => {
                         timer: 1500
                     });
                 }
+                navigate('my-donation-requests');
             });
     };
 
