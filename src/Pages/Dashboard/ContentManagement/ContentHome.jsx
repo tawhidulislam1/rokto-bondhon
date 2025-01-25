@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 
 const ContentHome = () => {
     const axiosSecure = useAxiosSecure();
+    const isAdmin = false;
     const { data: blogs = [], refetch } = useQuery({
         queryKey: ["blog"],
         queryFn: async () => {
@@ -14,6 +15,14 @@ const ContentHome = () => {
         }
     });
     const handleStatusChange = (user) => {
+        if (!isAdmin) {
+            Swal.fire({
+                title: "Sorry",
+                text: `Only Admin Can Change It`,
+                icon: "error",
+            });
+            return;
+        }
         const newStatus = user.status === "draft" ? "publised" : "draft";
         axiosSecure.patch(`/blog/${user._id}`, { status: newStatus })
             .then((res) => {
@@ -81,7 +90,15 @@ const ContentHome = () => {
                                     </td>
                                     <th>
                                         <button
-                                            onClick={() =>
+                                            onClick={() => {
+                                                if (!isAdmin) {
+                                                    Swal.fire({
+                                                        title: "Sorry",
+                                                        text: `Only Admin Can Change It`,
+                                                        icon: "error",
+                                                    });
+                                                    return;
+                                                }
                                                 Swal.fire({
                                                     title: "Are you sure?",
                                                     text: "This will delete the user permanently.",
@@ -102,7 +119,8 @@ const ContentHome = () => {
                                                                 }
                                                             });
                                                     }
-                                                })
+                                                });
+                                            }
                                             }
                                             className="btn btn-ghost btn-lg"
                                         >
