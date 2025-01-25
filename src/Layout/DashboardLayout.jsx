@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { BiBookContent } from 'react-icons/bi';
 import { FaAd, FaCalendar, FaHome, FaPaypal, FaShoppingCart, FaUsers } from 'react-icons/fa';
-import { FaBookBookmark, } from 'react-icons/fa6';
+
 import { IoIosClose } from 'react-icons/io';
 import { MdMenu, MdOutlineBloodtype } from 'react-icons/md';
 import { NavLink, Outlet } from 'react-router-dom';
@@ -12,7 +12,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 
 const DashboardLayout = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
-    const isAdmin = true;
+    const isAdmin = false;
     // const isVolunteer = true;
     return (
         <div>
@@ -35,8 +35,7 @@ const DashboardLayout = () => {
                                 <li><NavLink to={'/dashboard/my-donation-requests'}><FaCalendar /> My Donation Requests</NavLink></li>
                                 <li><NavLink to={'/dashboard/create-donation-request'}><FaPaypal /> Create Donation Request</NavLink></li>
                                 <li><NavLink to={'/dashboard/profile'}><FaShoppingCart /> profile</NavLink></li>
-                                <li><NavLink to={'/dashboard/review'}><FaAd /> Add a Review</NavLink></li>
-                                <li><NavLink to={'/dashboard/bookings'}><FaBookBookmark /> My Bookings</NavLink></li>
+                               
                             </>
                         )}
                         <div className="divider"></div>

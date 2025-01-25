@@ -4,6 +4,7 @@ import useAxosPublic from '../../../Hooks/useAxiosPublic';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line react/prop-types
 const AddBlog = ({ placeholder }) => {
     const editor = useRef(null);
     const [content, setContent] = useState('');
@@ -101,7 +102,7 @@ const AddBlog = ({ placeholder }) => {
                                 name='description'
                                 tabIndex={1} // tabIndex of textarea
                                 onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-                                onChange={newContent => { }}
+                                onChange={() => { }}
                             />
 
                         </div>

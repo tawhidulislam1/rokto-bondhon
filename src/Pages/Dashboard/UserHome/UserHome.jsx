@@ -64,7 +64,7 @@ const UserHome = () => {
 
     return (
         <div>
-            <h3 className="text-3xl">Welcome Come back, <strong>{user?.displayName}</strong></h3>
+            <h3 className="text-3xl">Welcome back, <strong>{user?.displayName}</strong></h3>
             {donations && <>
                 <div className="container mx-auto p-6">
                     <h2 className="text-3xl font-semibold text-center mb-6">Recent Donation Requests</h2>

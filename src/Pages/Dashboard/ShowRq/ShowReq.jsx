@@ -59,7 +59,7 @@ const ShowReq = () => {
     };
     return (
         <div className="container mx-auto p-6">
-            <h2 className="text-3xl font-semibold text-center mb-6">Recent Donation Requests</h2>
+            <h2 className="text-3xl font-semibold text-center mb-6">My Donation Requests</h2>
 
             <table className="table-auto w-full border-collapse">
                 <thead>
