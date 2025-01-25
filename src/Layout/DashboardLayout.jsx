@@ -13,7 +13,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 const DashboardLayout = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const isAdmin = false;
-    // const isVolunteer = true;
+    const isVolunteer = true;
     return (
         <div>
             <div className="flex flex-col sm:flex-row">
@@ -29,13 +29,23 @@ const DashboardLayout = () => {
                                 <li><NavLink to={'/dashboard/users'}><FaUsers /> All Users</NavLink></li>
                                 <li><NavLink to={'/dashboard/profile'}><FaUsers /> profile</NavLink></li>
                             </>
+                        ) : isVolunteer ? (
+                            <>
+                                <li><NavLink to={'/dashboard/adminHome'}><FaHome /> Dashboard</NavLink></li>
+
+                                <li><NavLink to={'/dashboard/all-blood-donation-request'}><MdOutlineBloodtype />All Blood Donation Request</NavLink></li>
+                                <li><NavLink to={'/dashboard/content-management'}><BiBookContent /> Content Management
+                                </NavLink></li>
+                                <li><NavLink to={'/dashboard/profile'}><FaShoppingCart /> profile</NavLink></li>
+
+                            </>
                         ) : (
                             <>
                                 <li><NavLink to={'/dashboard/userHome'}><FaHome /> User Home</NavLink></li>
                                 <li><NavLink to={'/dashboard/my-donation-requests'}><FaCalendar /> My Donation Requests</NavLink></li>
                                 <li><NavLink to={'/dashboard/create-donation-request'}><FaPaypal /> Create Donation Request</NavLink></li>
                                 <li><NavLink to={'/dashboard/profile'}><FaShoppingCart /> profile</NavLink></li>
-                               
+
                             </>
                         )}
                         <div className="divider"></div>

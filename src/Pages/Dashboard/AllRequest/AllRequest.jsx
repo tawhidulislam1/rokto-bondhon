@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 const AllRequest = () => {
     const AxiosSecure = useAxiosSecure();
-
+    const isAdmin = false;
     // Fetch all users
     const { data: donations = [], refetch } = useQuery({
         queryKey: ["user"],
@@ -68,7 +68,9 @@ const AllRequest = () => {
                         <th className="px-4 py-2 border">Donation Time</th>
                         <th className="px-4 py-2 border">Blood Group</th>
                         <th className="px-4 py-2 border">Status</th>
-                        <th className="px-4 py-2 border">Actions</th>
+                        {
+                            isAdmin && <th className="px-4 py-2 border">Actions</th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -99,24 +101,30 @@ const AllRequest = () => {
                                     </>
                                 )}
                             </td>
-                            <td className="px-4 py-2 border flex">
 
-                                <button
-                                    onClick={() => handleDelete(donation._id)}
-                                    className="btn btn-danger ml-2"
-                                >
-                                    Delete
-                                </button>
-                                <button className="btn btn-info ml-2">View</button>
-                                <Link to={`/dashboard/udpateReq/${donation._id}`}>
-                                    <button className="btn btn-warning ml-2">Edit</button>
-                                </Link>
-                            </td>
+
+                            {
+                                isAdmin && <>
+                                    <td className="px-4 py-2 border flex">
+                                        <button
+                                            onClick={() => handleDelete(donation._id)}
+                                            className="btn btn-danger ml-2"
+                                        >
+                                            Delete
+                                        </button>
+                                        <button className="btn btn-info ml-2">View</button>
+                                        <Link to={`/dashboard/udpateReq/${donation._id}`}>
+                                            <button className="btn btn-warning ml-2">Edit</button>
+                                        </Link>
+                                    </td>
+                                </>
+                            }
+
                         </tr>
                     ))}
                 </tbody>
             </table>
-        </div>
+        </div >
     );
 };
 
