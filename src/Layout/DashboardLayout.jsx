@@ -7,13 +7,15 @@ import { FaAd, FaCalendar, FaHome, FaPaypal, FaShoppingCart, FaUsers } from 'rea
 import { IoIosClose } from 'react-icons/io';
 import { MdMenu, MdOutlineBloodtype } from 'react-icons/md';
 import { NavLink, Outlet } from 'react-router-dom';
+import useAdmin from '../Hooks/useAdmin';
+import useVolunteer from '../Hooks/useVolunteer';
 
 
 
 const DashboardLayout = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
-    const isAdmin = true;
-    const isVolunteer = true;
+    const [isAdmin] = useAdmin();
+    const [isVolunteer] = useVolunteer();
     return (
         <div>
             <div className="flex flex-col sm:flex-row">

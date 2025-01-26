@@ -75,7 +75,7 @@ const Navbar = () => {
                                     tabIndex={0}
                                     className="menu menu-sm dropdown-content  bg-[#DC143C] rounded-box z-[1] mt-3 w-52 p-2 shadow">
 
-                                    <li><Link to={'/dashboard/userHome'}>Dashboard</Link></li>
+                                    <li><Link to={'/dashboard/profile'}>Dashboard</Link></li>
                                     <li><button onClick={handleLogOut} ><FaSignOutAlt></FaSignOutAlt> Logout</button></li>
                                 </ul>
                             </div>

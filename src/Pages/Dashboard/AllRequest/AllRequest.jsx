@@ -3,9 +3,10 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import useAdmin from "../../../Hooks/useAdmin";
 const AllRequest = () => {
     const AxiosSecure = useAxiosSecure();
-    const isAdmin = false;
+    const [isAdmin] = useAdmin();
     // Fetch all users
     const { data: donations = [], refetch } = useQuery({
         queryKey: ["user"],

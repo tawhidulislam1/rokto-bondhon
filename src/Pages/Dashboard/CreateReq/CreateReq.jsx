@@ -11,6 +11,7 @@ const CreateReq = () => {
     const [selectedDistrict, setSelectedDistrict] = useState(null);
     const [upjelas, setUpjelas] = useState([]);
     const [selectedUpjela, setSelectedUpjela] = useState('');
+    const [profile, setProfile] = useState({});
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -38,48 +39,56 @@ const CreateReq = () => {
         setSelectedDistrict(district);
         setSelectedUpjela('');
     };
+    useEffect(() => {
+        axiosSecure.get(`/user/profile/${user?.email}`)
+            .then(res => {
+                setProfile(res.data);
+            });
+    }, []);
 
+    console.log(profile.status);
     const onSubmit = (data) => {
         console.log(selectedUpjela);
-        if (user.status === "blocked") {
-            Swal.fire({
-                position: "top-center",
-                icon: "error",
-                title: "Your account has been blocked. Please contact support.",
-                showConfirmButton: false,
-                timer: 1500
-            });
+        if (profile?.status === "active") {
+            const reqInfo = {
+                name: user?.displayName || "",
+                email: user?.email || "",
+                recipientName: data.recipientName,
+                district: data.district,
+                upajela: data.upajela,
+                hospitalName: data.hospitalName,
+                fullAddress: data.fullAddress,
+                bloodGroup: data.bloodGroup,
+                donationDate: data.donationDate,
+                donationtime: data.donationTime,
+                requestMessage: data.requestMessage,
+                status: "pending",
+                createdAt: new Date(),
+            };
+
+            axiosSecure.post("bloodReq", reqInfo)
+                .then(res => {
+                    if (res.data.insertedId) {
+                        Swal.fire({
+                            position: "top-center",
+                            icon: "success",
+                            title: "Your Requste has been created",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                    navigate('/dashboard/my-donation-requests');
+                });
+
             return;
         }
-        const reqInfo = {
-            name: user?.displayName || "",
-            email: user?.email || "",
-            recipientName: data.recipientName,
-            district: data.district,
-            upajela: data.upajela,
-            hospitalName: data.hospitalName,
-            fullAddress: data.fullAddress,
-            bloodGroup: data.bloodGroup,
-            donationDate: data.donationDate,
-            donationtime: data.donationTime,
-            requestMessage: data.requestMessage,
-            status: "pending",
-            createdAt: new Date(),
-        };
-
-        axiosSecure.post("bloodReq", reqInfo)
-            .then(res => {
-                if (res.data.insertedId) {
-                    Swal.fire({
-                        position: "top-center",
-                        icon: "success",
-                        title: "Your account has been created",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-                navigate('/dashboard/my-donation-requests');
-            });
+        Swal.fire({
+            position: "top-center",
+            icon: "error",
+            title: "Your account has been blocked. Please contact support.",
+            showConfirmButton: false,
+            timer: 1500
+        });
     };
 
     return (

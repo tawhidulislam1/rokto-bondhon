@@ -15,6 +15,7 @@ import UserProfile from "../Pages/Dashboard/UserProfile/UserProfile";
 import AllRequest from "../Pages/Dashboard/AllRequest/AllRequest";
 import ContentHome from "../Pages/Dashboard/ContentManagement/ContentHome";
 import AddBlog from "../Pages/Dashboard/ContentManagement/AddBlog";
+import PrivateRoute from "./PrivateRoute";
 
 
 const router = createBrowserRouter([
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
     },
     {
         path: 'dashboard',
-        element: <DashboardLayout></DashboardLayout>,
+        element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
         children: [
             {
                 path: "profile",

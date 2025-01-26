@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
-
+import useAdmin from '../../../Hooks/useAdmin';
 const ContentHome = () => {
     const axiosSecure = useAxiosSecure();
-    const isAdmin = false;
+    const [isAdmin] = useAdmin();
     const { data: blogs = [], refetch } = useQuery({
         queryKey: ["blog"],
         queryFn: async () => {
