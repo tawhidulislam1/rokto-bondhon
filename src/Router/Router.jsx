@@ -16,6 +16,7 @@ import AllRequest from "../Pages/Dashboard/AllRequest/AllRequest";
 import ContentHome from "../Pages/Dashboard/ContentManagement/ContentHome";
 import AddBlog from "../Pages/Dashboard/ContentManagement/AddBlog";
 import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
 
 
 const router = createBrowserRouter([
@@ -66,19 +67,19 @@ const router = createBrowserRouter([
             //admin
             {
                 path: "users",
-                element: <AllUser></AllUser>
+                element: <AdminRoute><AllUser></AllUser></AdminRoute>
             },
             {
                 path: "all-blood-donation-request",
-                element: <AllRequest></AllRequest>
+                element: <AdminRoute><AllRequest></AllRequest></AdminRoute>
             },
             {
                 path: "content-management",
-                element: <ContentHome></ContentHome>
+                element: <AdminRoute> <ContentHome></ContentHome></AdminRoute>
             },
             {
                 path: "add-blog",
-                element: <AddBlog></AddBlog>
+                element: <AdminRoute> <AddBlog></AddBlog></AdminRoute>
             },
         ]
     }
