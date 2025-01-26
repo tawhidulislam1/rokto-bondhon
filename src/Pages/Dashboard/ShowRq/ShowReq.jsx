@@ -3,10 +3,12 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const ShowReq = () => {
     const AxiosSecure = useAxiosSecure();
     const { user } = useAuth();
+    const [selectedDonation, setSelectedDonation] = useState(null);
 
     // Fetch all users
     const { data: donations = [], refetch } = useQuery({
@@ -87,17 +89,12 @@ const ShowReq = () => {
                                 {donation.status === "inprogress" && (
                                     <>
                                         <button
-                                            onClick={() => updateStatus(donation._id, "done")}
-                                            className="btn btn-sm btn-success mr-2"
+                                            className="btn btn-sm btn-primary ml-2"
+                                            onClick={() => setSelectedDonation(donation)}
                                         >
-                                            Done
+                                            Update Status
                                         </button>
-                                        <button
-                                            onClick={() => updateStatus(donation._id, "canceled")}
-                                            className="btn btn-sm btn-danger"
-                                        >
-                                            Cancel
-                                        </button>
+
                                     </>
                                 )}
                             </td>
@@ -121,6 +118,44 @@ const ShowReq = () => {
                     ))}
                 </tbody>
             </table>
+            {selectedDonation && (
+                <dialog open className="modal">
+                    <div className="modal-box">
+                        <h2 className="text-xl font-semibold">
+                            Donor Name: {selectedDonation?.Doonername || "N/A"}
+                        </h2>
+                        <h2 className="text-xl font-semibold">
+                            Donor Email: {selectedDonation?.donnerEamil || "N/A"}
+                        </h2>
+                        <div className="mt-4 flex space-x-2">
+                            <button
+                                onClick={() => {
+                                    updateStatus(selectedDonation._id, "done");
+                                    setSelectedDonation(null);
+                                }}
+                                className="btn btn-sm btn-success"
+                            >
+                                Mark as Done
+                            </button>
+                            <button
+                                onClick={() => {
+                                    updateStatus(selectedDonation._id, "canceled");
+                                    setSelectedDonation(null);
+                                }}
+                                className="btn btn-sm btn-danger"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                        <div className="modal-action">
+                            <button onClick={() => setSelectedDonation(null)} className="btn">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </dialog>
+            )}
+
         </div>
     );
 };

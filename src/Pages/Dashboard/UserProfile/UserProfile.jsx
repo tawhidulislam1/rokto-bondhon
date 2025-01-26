@@ -1,56 +1,60 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth"; // Custom hook for user authentication
 import useAxiosSecure from "../../../Hooks/useAxiosSecure"; // Custom hook for secure axios
 import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
 
 const UserProfile = () => {
-    const { user } = useAuth();
+    const { user, updateUser } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [isEditable, setIsEditable] = useState(false);
-    const [profile, setProfile] = useState({});
-    const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
-    // Fetch user profile from database
-    useEffect(() => {
-        axiosSecure.get(`/user/profile/${user?.email}`)
-            .then(res => {
-                setProfile(res.data);
-                reset(res.data); // Populate form with user profile data
-            });
-    }, [user?.email, axiosSecure, reset]);
+    const { data: profile = [], refetch } = useQuery({
+        queryKey: ["profile"],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/user/profile/${user?.email}`);
+            return res.data;
+        }
+    });
 
-    // Enable edit mode
     const handleEdit = () => setIsEditable(true);
 
-    // Save updated profile
     const onSubmit = async (data) => {
         console.log(data);
-        axiosSecure.patch(`/user/profile/${user?.email}`, data)
-            .then(res => {
-                if (res.data.modifiedCount > 0) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Profile updated successfully!",
-                        showConfirmButton: false,
-                        timer: 1500
+        updateUser(data.name, data.image)
+            .then(() => {
+                axiosSecure.patch(`/user/profile/${user?.email}`, data)
+                    .then(res => {
+                        console.log(res.data);
+
+                        if (res.data.modifiedCount > 0) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Profile updated successfully!",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            refetch();
+                            setIsEditable(false); 
+                        }
+                    })
+                    .catch(err => {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Something went wrong!",
+                            text: err.message,
+                        });
                     });
-                    setProfile(data); // Update local profile state
-                    setIsEditable(false); // Disable edit mode
-                }
-            })
-            .catch(err => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Something went wrong!",
-                    text: err.message,
-                });
+
             });
+
     };
 
     return (
         <div className="container mx-auto p-6 bg-white rounded-lg shadow-lg max-w-3xl">
-            <h2 className="text-2xl font-bold text-center mb-6">User Profile</h2>
+            <h2 className="text-2xl font-bold text-center mb-6">Update User Profile</h2>
 
             <div className="flex justify-end mb-4">
                 {isEditable ? (
@@ -157,7 +161,7 @@ const UserProfile = () => {
                 <div className="flex flex-col">
                     <label className="text-lg">Blood Group</label>
                     <select
-                        defaultValue={profile?.bloodGroup || ""}
+                        value={profile?.bloodGroup || ""}
                         {...register("bloodGroup", { required: "Blood group is required" })}
                         disabled={!isEditable}
                         className={`select select-bordered ${isEditable ? "border-blue-500" : "border-gray-300"} outline-none`}
@@ -172,6 +176,7 @@ const UserProfile = () => {
                         <option value="O+">O+</option>
                         <option value="O-">O-</option>
                     </select>
+
                     {errors.bloodGroup && <span className="text-red-600">{errors.bloodGroup.message}</span>}
                 </div>
             </form>

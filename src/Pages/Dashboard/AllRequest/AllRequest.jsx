@@ -4,8 +4,11 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import useAdmin from "../../../Hooks/useAdmin";
+import { useState } from "react";
 const AllRequest = () => {
     const AxiosSecure = useAxiosSecure();
+    const [selectedDonation, setSelectedDonation] = useState(null);
+
     const [isAdmin] = useAdmin();
     // Fetch all users
     const { data: donations = [], refetch } = useQuery({
@@ -88,7 +91,12 @@ const AllRequest = () => {
                             <td className="px-4 py-2 border">{donation.status}
                                 {donation.status === "inprogress" && (
                                     <>
-                                        <button className="btn" onClick={() => document.getElementById('my_modal_5').showModal()}>open modal</button>
+                                        <button
+                                            className="btn btn-sm btn-primary ml-2"
+                                            onClick={() => setSelectedDonation(donation)}
+                                        >
+                                            Update Status
+                                        </button>
 
                                     </>
                                 )}
@@ -114,35 +122,7 @@ const AllRequest = () => {
                                     </td>
                                 </>
                             }
-                            <td>
-                                <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-                                    <div className="modal-box">
-                                        <h2 className="text-xl  py-2 font-semibold">Donner Name:{donation?.Doonername}</h2>
-                                        {
-                                            console.log(donation.Doonername)
-                                        }
-                                        <h2 className="text-xl py-2 font-semibold">Donner Email:{donation?.donnerEamil}</h2>
-                                        <button
-                                            onClick={() => updateStatus(donation._id, "done")}
-                                            className="btn btn-sm btn-success mr-2"
-                                        >
-                                            Done
-                                        </button>
-                                        <button
-                                            onClick={() => updateStatus(donation._id, "canceled")}
-                                            className="btn btn-sm btn-danger"
-                                        >
-                                            Cancel
-                                        </button>
-                                        <div className="modal-action">
-                                            <form method="dialog">
-                                                {/* if there is a button in form, it will close the modal */}
-                                                <button className="btn">Close</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </dialog>
-                            </td>
+
 
                         </tr>
 
@@ -150,6 +130,43 @@ const AllRequest = () => {
                 </tbody>
             </table>
             {/* Open the modal using document.getElementById('ID').showModal() method */}
+            {selectedDonation && (
+                <dialog open className="modal">
+                    <div className="modal-box">
+                        <h2 className="text-xl font-semibold">
+                            Donor Name: {selectedDonation?.Doonername || "N/A"}
+                        </h2>
+                        <h2 className="text-xl font-semibold">
+                            Donor Email: {selectedDonation?.donnerEamil || "N/A"}
+                        </h2>
+                        <div className="mt-4 flex space-x-2">
+                            <button
+                                onClick={() => {
+                                    updateStatus(selectedDonation._id, "done");
+                                    setSelectedDonation(null);
+                                }}
+                                className="btn btn-sm btn-success"
+                            >
+                                Mark as Done
+                            </button>
+                            <button
+                                onClick={() => {
+                                    updateStatus(selectedDonation._id, "canceled");
+                                    setSelectedDonation(null);
+                                }}
+                                className="btn btn-sm btn-danger"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                        <div className="modal-action">
+                            <button onClick={() => setSelectedDonation(null)} className="btn">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </dialog>
+            )}
 
 
         </div >
