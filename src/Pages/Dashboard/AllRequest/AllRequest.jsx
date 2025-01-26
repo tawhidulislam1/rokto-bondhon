@@ -22,8 +22,8 @@ const AllRequest = () => {
             .then(res => {
                 if (res.data.modifiedCount > 0) {
                     Swal.fire({
-                        title: "Role Updated!",
-                        text: `Your Blood Is Found`,
+                        title: "Status Updated!",
+                        text: `Your Blood Is ${status}`,
                         icon: "success",
                     });
                     refetch();
@@ -72,6 +72,7 @@ const AllRequest = () => {
                         {
                             isAdmin && <th className="px-4 py-2 border">Actions</th>
                         }
+
                     </tr>
                 </thead>
                 <tbody>
@@ -87,18 +88,8 @@ const AllRequest = () => {
                             <td className="px-4 py-2 border">{donation.status}
                                 {donation.status === "inprogress" && (
                                     <>
-                                        <button
-                                            onClick={() => updateStatus(donation._id, "done")}
-                                            className="btn btn-sm btn-success mr-2"
-                                        >
-                                            Done
-                                        </button>
-                                        <button
-                                            onClick={() => updateStatus(donation._id, "canceled")}
-                                            className="btn btn-sm btn-danger"
-                                        >
-                                            Cancel
-                                        </button>
+                                        <button className="btn" onClick={() => document.getElementById('my_modal_5').showModal()}>open modal</button>
+
                                     </>
                                 )}
                             </td>
@@ -113,18 +104,54 @@ const AllRequest = () => {
                                         >
                                             Delete
                                         </button>
-                                        <button className="btn btn-info ml-2">View</button>
+
+                                        <Link to={`/donation-request/${donation._id}`}>
+                                            <button className="btn btn-info">View</button>
+                                        </Link>
                                         <Link to={`/dashboard/udpateReq/${donation._id}`}>
                                             <button className="btn btn-warning ml-2">Edit</button>
                                         </Link>
                                     </td>
                                 </>
                             }
+                            <td>
+                                <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+                                    <div className="modal-box">
+                                        <h2 className="text-xl  py-2 font-semibold">Donner Name:{donation?.Doonername}</h2>
+                                        {
+                                            console.log(donation.Doonername)
+                                        }
+                                        <h2 className="text-xl py-2 font-semibold">Donner Email:{donation?.donnerEamil}</h2>
+                                        <button
+                                            onClick={() => updateStatus(donation._id, "done")}
+                                            className="btn btn-sm btn-success mr-2"
+                                        >
+                                            Done
+                                        </button>
+                                        <button
+                                            onClick={() => updateStatus(donation._id, "canceled")}
+                                            className="btn btn-sm btn-danger"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <div className="modal-action">
+                                            <form method="dialog">
+                                                {/* if there is a button in form, it will close the modal */}
+                                                <button className="btn">Close</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </dialog>
+                            </td>
 
                         </tr>
+
                     ))}
                 </tbody>
             </table>
+            {/* Open the modal using document.getElementById('ID').showModal() method */}
+
+
         </div >
     );
 };

@@ -16,6 +16,7 @@ const DashboardLayout = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [isAdmin] = useAdmin();
     const [isVolunteer] = useVolunteer();
+    console.log(isVolunteer);
     return (
         <div>
             <div className="flex flex-col sm:flex-row">
@@ -31,7 +32,7 @@ const DashboardLayout = () => {
                                 <li><NavLink to={'/dashboard/users'}><FaUsers /> All Users</NavLink></li>
                                 <li><NavLink to={'/dashboard/profile'}><FaUsers /> profile</NavLink></li>
                             </>
-                        ) : isVolunteer ? (
+                        ) : isVolunteer.volunteer ? (
                             <>
                                 <li><NavLink to={'/dashboard/adminHome'}><FaHome /> Dashboard</NavLink></li>
 

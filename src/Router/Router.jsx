@@ -17,6 +17,8 @@ import ContentHome from "../Pages/Dashboard/ContentManagement/ContentHome";
 import AddBlog from "../Pages/Dashboard/ContentManagement/AddBlog";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
+import DonationRequest from "../Pages/DonationRequest/DonationRequest";
+import DetailsPage from "../Pages/DonationRequest/DetailsPage";
 
 
 const router = createBrowserRouter([
@@ -27,6 +29,15 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Homepage></Homepage>,
+            },
+            {
+                path: '/donation-request',
+                element: <DonationRequest></DonationRequest>,
+            },
+            {
+                path: '/donation-request/:id',
+                element: <PrivateRoute><DetailsPage></DetailsPage></PrivateRoute>,
+                loader: ({ params }) => fetch(`http://localhost:5000/bloodReq/${params.id}`)
             },
             {
                 path: '/login',

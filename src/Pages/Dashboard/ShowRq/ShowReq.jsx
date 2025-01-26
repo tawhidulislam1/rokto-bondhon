@@ -109,7 +109,10 @@ const ShowReq = () => {
                                 >
                                     Delete
                                 </button>
-                                <button className="btn btn-info ml-2">View</button>
+
+                                <Link to={`/donation-request/${donation._id}`}>
+                                    <button className="btn btn-info">View</button>
+                                </Link>
                                 <Link to={`/dashboard/udpateReq/${donation._id}`}>
                                     <button className="btn btn-warning ml-2">Edit</button>
                                 </Link>

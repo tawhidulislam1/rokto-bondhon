@@ -1,6 +1,6 @@
 
 import { MdBloodtype } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
 import { FaSignOutAlt } from "react-icons/fa";
@@ -17,7 +17,8 @@ const Navbar = () => {
     };
     console.log(user);
     const links = <>
-        <li><a>donation requests</a></li>
+        <li><NavLink to={'/'}>Home</NavLink></li>
+        <li><NavLink to={'/donation-request'}>donation requests</NavLink></li>
         <li><a>blog</a></li>
         <li><a>Funding</a></li>
         <li><a> Search Donors</a></li>
