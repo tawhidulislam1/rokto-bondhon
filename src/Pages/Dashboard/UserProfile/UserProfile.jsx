@@ -6,15 +6,16 @@ import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
 
 const UserProfile = () => {
-    const { user, updateUser } = useAuth();
+    const { user, updateUser, setLoading } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [isEditable, setIsEditable] = useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     const { data: profile = [], refetch } = useQuery({
         queryKey: ["profile"],
         queryFn: async () => {
             const res = await axiosSecure.get(`/user/profile/${user?.email}`);
+            reset(res.data);
             return res.data;
         }
     });
@@ -37,8 +38,10 @@ const UserProfile = () => {
                                 timer: 1500
                             });
                             refetch();
-                            setIsEditable(false); 
+                            setLoading(false);
+                            setIsEditable(false);
                         }
+
                     })
                     .catch(err => {
                         Swal.fire({
@@ -80,7 +83,7 @@ const UserProfile = () => {
                     <label className="text-lg">Name</label>
                     <input
                         type="text"
-                        defaultValue={profile?.name || ""}
+                        defaultValue={user?.displayName || ""}
                         {...register("name", { required: "Name is required" })}
                         readOnly={!isEditable}
                         className={`input input-bordered ${isEditable ? "border-blue-500" : "border-gray-300"} outline-none`}

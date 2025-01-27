@@ -20,7 +20,7 @@ const Navbar = () => {
         <li><NavLink to={'/'}>Home</NavLink></li>
         <li><NavLink to={'/donation-request'}>donation requests</NavLink></li>
         <li><NavLink to={"/blog"}>blog</NavLink></li>
-        <li><a>Funding</a></li>
+        <li><NavLink to={"/funding"}>Funding</NavLink></li>
         <li><a> Search Donors</a></li>
     </>;
     return (

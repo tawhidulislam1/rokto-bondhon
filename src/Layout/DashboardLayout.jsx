@@ -25,7 +25,7 @@ const DashboardLayout = () => {
                     <ul className="menu">
                         {isAdmin ? (
                             <>
-                                <li><NavLink to={'/dashboard/adminHome'}><FaHome /> Admin Home</NavLink></li>
+                                <li><NavLink to={'/dashboard/dashboard'}><FaHome /> Admin Home</NavLink></li>
                                 <li><NavLink to={'/dashboard/all-blood-donation-request'}><MdOutlineBloodtype />All Blood Donation Request</NavLink></li>
                                 <li><NavLink to={'/dashboard/content-management'}><BiBookContent /> Content Management
                                 </NavLink></li>
@@ -34,7 +34,7 @@ const DashboardLayout = () => {
                             </>
                         ) : isVolunteer.volunteer ? (
                             <>
-                                <li><NavLink to={'/dashboard/adminHome'}><FaHome /> Dashboard</NavLink></li>
+                                <li><NavLink to={'/dashboard/dashboard'}><FaHome /> Dashboard</NavLink></li>
 
                                 <li><NavLink to={'/dashboard/all-blood-donation-request'}><MdOutlineBloodtype />All Blood Donation Request</NavLink></li>
                                 <li><NavLink to={'/dashboard/content-management'}><BiBookContent /> Content Management

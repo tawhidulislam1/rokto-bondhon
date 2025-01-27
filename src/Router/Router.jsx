@@ -21,6 +21,8 @@ import DonationRequest from "../Pages/DonationRequest/DonationRequest";
 import DetailsPage from "../Pages/DonationRequest/DetailsPage";
 import BlogPage from "../Pages/BlogPage/BlogPage";
 import BlogDetails from "../Pages/BlogPage/BlogDetails";
+import Dashboard from "../Pages/Dashboard/Dashboard/Dashboard";
+import Funds from "../Pages/Funds/Funds";
 
 
 const router = createBrowserRouter([
@@ -51,6 +53,10 @@ const router = createBrowserRouter([
                 loader: ({ params }) => fetch(`http://localhost:5000/blog/${params.id}`)
             },
             {
+                path: '/funding',
+                element: <PrivateRoute><Funds></Funds></PrivateRoute>,
+            },
+            {
                 path: '/login',
                 element: <Login></Login>,
             },
@@ -68,6 +74,7 @@ const router = createBrowserRouter([
                 path: "profile",
                 element: <UserProfile></UserProfile>
             },
+
             {
                 path: "userHome",
                 element: <UserHome></UserHome>
@@ -87,6 +94,10 @@ const router = createBrowserRouter([
             },
 
             //admin
+            {
+                path: "dashboard",
+                element: <Dashboard></Dashboard>
+            },
             {
                 path: "users",
                 element: <AdminRoute><AllUser></AllUser></AdminRoute>

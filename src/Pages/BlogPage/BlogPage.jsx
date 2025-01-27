@@ -16,7 +16,7 @@ const BlogPage = () => {
             <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                 {
                     blogs.map(blog => <>
-                        <div className="card card-compact bg-[#FDEDEC] shadow-xl">
+                        <div key={blog._id} className="card card-compact bg-[#FDEDEC] shadow-xl">
                             <figure>
                                 <img
                                     src={blog.image}
