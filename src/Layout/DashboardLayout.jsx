@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { BiBookContent } from 'react-icons/bi';
-import { FaAd, FaCalendar, FaHome, FaPaypal, FaShoppingCart, FaUsers } from 'react-icons/fa';
+import { FaAd, FaBlog, FaCalendar, FaHome, FaPaypal, FaSearch, FaShoppingCart, FaUsers } from 'react-icons/fa';
 
 import { IoIosClose } from 'react-icons/io';
 import { MdMenu, MdOutlineBloodtype } from 'react-icons/md';
@@ -54,9 +54,9 @@ const DashboardLayout = () => {
                         <div className="divider"></div>
                         {/* Home page redirect */}
                         <li><NavLink to={'/'}><FaHome /> Home</NavLink></li>
-                        <li><NavLink to={'/menu'}><FaCalendar /> Menu</NavLink></li>
-                        <li><NavLink to={'/Shop'}><FaShoppingCart /> Shop</NavLink></li>
-                        <li><NavLink to={'/dashboard/review'}><FaAd /> Contact</NavLink></li>
+                        <li><NavLink to={'/search'}><FaSearch /> Search</NavLink></li>
+                        <li><NavLink to={'/blog'}><FaBlog /> blog</NavLink></li>
+                        <li><NavLink to={'/donation-request'}><FaAd /> donation-request</NavLink></li>
                     </ul>
                 </div>
 

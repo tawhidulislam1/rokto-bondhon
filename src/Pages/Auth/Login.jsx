@@ -22,7 +22,15 @@ const Login = () => {
                     draggable: true
                 });
                 navigate('/');
-            });
+            })
+
+            .catch((err) => {
+                Swal.fire({
+                    title: `${err}!`,
+                    icon: "error",
+                    draggable: true
+                });
+            })
 
     };
     return (

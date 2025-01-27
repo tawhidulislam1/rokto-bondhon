@@ -42,7 +42,7 @@ const router = createBrowserRouter([
             {
                 path: '/donation-request/:id',
                 element: <PrivateRoute><DetailsPage></DetailsPage></PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/bloodReq/${params.id}`)
+                loader: ({ params }) => fetch(`https://rokto-bondhon-server-side.vercel.app/bloodReq/${params.id}`)
             },
             {
                 path: '/blog',
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
             {
                 path: '/blog-details/:id',
                 element: <BlogDetails></BlogDetails>,
-                loader: ({ params }) => fetch(`http://localhost:5000/blog/${params.id}`)
+                loader: ({ params }) => fetch(`https://rokto-bondhon-server-side.vercel.app/blog/${params.id}`)
             },
             {
                 path: '/funding',
@@ -95,7 +95,7 @@ const router = createBrowserRouter([
             {
                 path: "udpateReq/:id",
                 element: <UpdateReq></UpdateReq>,
-                loader: ({ params }) => fetch(`http://localhost:5000/bloodReq/${params.id}`)
+                loader: ({ params }) => fetch(`https://rokto-bondhon-server-side.vercel.app/bloodReq/${params.id}`)
             },
 
             //admin
