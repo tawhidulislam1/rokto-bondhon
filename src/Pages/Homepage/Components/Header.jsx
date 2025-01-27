@@ -1,5 +1,8 @@
+import { Link } from "react-router-dom";
+import useAuth from "../../../Hooks/useAuth";
 
 const Header = () => {
+    const { user } = useAuth();
     return (
         <div
             className="hero min-h-screen"
@@ -14,7 +17,9 @@ const Header = () => {
                         Rokto-bondhon is a real-time free platform to help blood searchers connect voluntary blood donors around Bangladesh.
                     </p>
                     <div className="flex gap-5 justify-center">
-                        <button className="btn bg-[#DC143C] border-none text-white hover:text-[#DC143C]">Join As A Donor</button>
+                        <Link to={user?.email ? "/dashboard/profile" : "/login"}>
+                            <button className="btn bg-[#DC143C] border-none text-white hover:text-[#DC143C]">Join As A Donor</button>
+                        </Link>
                         <button className="btn bg-white border-none text-[#DC143C] hover:bg-[#DC143C] hover:text-white">Search Donors</button>
                     </div>
                 </div>

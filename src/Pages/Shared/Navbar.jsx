@@ -21,7 +21,7 @@ const Navbar = () => {
         <li><NavLink to={'/donation-request'}>donation requests</NavLink></li>
         <li><NavLink to={"/blog"}>blog</NavLink></li>
         <li><NavLink to={"/funding"}>Funding</NavLink></li>
-        <li><a> Search Donors</a></li>
+        <li><NavLink to={"search"}> Search Donors</NavLink></li>
     </>;
     return (
         <div className="navbar text-white bg-[#DC143C]">
