@@ -1,30 +1,67 @@
-import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import useAxosPublic from "../../Hooks/useAxiosPublic";
 
 const DonorSearch = () => {
     const [bloodGroup, setBloodGroup] = useState("");
-    const [district, setDistrict] = useState("");
-    const [upazila, setUpazila] = useState("");
+    const [district, setDistrict] = useState([]);
+    const [selectedDistrict, setSelectedDistrict] = useState('');
+    const [upazila, setUpazila] = useState([]);
+    const [selectedUpazila, setSelectedUpazila] = useState("");
     const [donors, setDonors] = useState([]);
+    const axiosPublic = useAxosPublic();
+    // Fetch districts
+    useEffect(() => {
+        fetch("./districts.json")
+            .then(res => res.json())
+            .then(data => setDistrict(data));
+    }, []);
 
+    // Fetch upazilas based on selected district
+    useEffect(() => {
+        if (selectedDistrict) {
+            fetch("./upazilas.json")
+                .then(res => res.json())
+                .then(data => {
+                    const filteredUpazilas = data.filter(upazila => upazila.district_id === selectedDistrict.id);
+                    setUpazila(filteredUpazilas);
+                });
+        }
+    }, [selectedDistrict]);
+
+    const handleDistrictChange = (e) => {
+        const districtName = e.target.value;
+        const selected = district.find(d => d.name === districtName);
+        setSelectedDistrict(selected);
+    };
+    const { data: users = [] } = useQuery({
+        queryKey: ["user"],
+        queryFn: async () => {
+            const res = await axiosPublic.get("user");
+            return res.data;
+        },
+    });
     const handleSearch = () => {
         // Simulate a donor search (Replace this with actual API call logic)
-        const mockDonors = [
-            { name: "John Doe", bloodGroup: "A+", district: "Dhaka", upazila: "Gulshan" },
-            { name: "Jane Smith", bloodGroup: "O+", district: "Chittagong", upazila: "Patiya" },
-        ];
+        // const mockDonors = [
+        //     { name: "John Doe", bloodGroup: "A+", district: "Dhaka", upazila: "Gulshan" },
+        //     { name: "Jane Smith", bloodGroup: "O+", district: "Chittagong", upazila: "Patiya" },
+        // ];
 
-        const filteredDonors = mockDonors.filter(
+
+        const filteredDonors = users.filter(
             (donor) =>
                 donor.bloodGroup === bloodGroup &&
-                donor.district === district &&
-                donor.upazila === upazila
+                donor.district === selectedDistrict.name &&
+                donor.upajela === selectedUpazila
         );
+        console.log(filteredDonors);
 
         setDonors(filteredDonors);
     };
 
     return (
-        <div className="p-4 max-w-md mx-auto">
+        <div className="p-4 max-w-lg mx-auto">
             <h2 className="text-2xl font-semibold mb-4">Search Blood Donors</h2>
 
             <form
@@ -57,30 +94,34 @@ const DonorSearch = () => {
                 <div>
                     <label className="block text-sm font-medium mb-1">District</label>
                     <select
-                        value={district}
-                        onChange={(e) => setDistrict(e.target.value)}
                         className="w-full border rounded-lg p-2"
+                        value={selectedDistrict.name || ""}
+                        onChange={handleDistrictChange}
                         required
                     >
                         <option value="">Select District</option>
-                        <option value="Dhaka">Dhaka</option>
-                        <option value="Chittagong">Chittagong</option>
-                        {/* Add more districts here */}
+                        {district.map((d) => (
+                            <option key={d.id} value={d.name}>
+                                {d.name} ({d.bn_name})
+                            </option>
+                        ))}
                     </select>
                 </div>
 
                 <div>
                     <label className="block text-sm font-medium mb-1">Upazila</label>
                     <select
-                        value={upazila}
-                        onChange={(e) => setUpazila(e.target.value)}
+                        value={selectedUpazila}
+                        onChange={(e) => setSelectedUpazila(e.target.value)}
                         className="w-full border rounded-lg p-2"
                         required
                     >
                         <option value="">Select Upazila</option>
-                        {district === "Dhaka" && <option value="Gulshan">Gulshan</option>}
-                        {district === "Chittagong" && <option value="Patiya">Patiya</option>}
-                        {/* Add more upazilas dynamically based on the district */}
+                        {upazila.map((u) => (
+                            <option key={u.id} value={u.name}>
+                                {u.name}
+                            </option>
+                        ))}
                     </select>
                 </div>
 
@@ -95,19 +136,41 @@ const DonorSearch = () => {
             <div className="mt-6">
                 <h3 className="text-xl font-semibold mb-4">Donor List</h3>
                 {donors.length > 0 ? (
-                    <ul className="space-y-2">
-                        {donors.map((donor, index) => (
-                            <li
-                                key={index}
-                                className="p-4 border rounded-lg shadow-sm flex justify-between"
-                            >
-                                <span>{donor.name}</span>
-                                <span className="text-sm text-gray-600">
-                                    {donor.bloodGroup} - {donor.district}, {donor.upazila}
-                                </span>
-                            </li>
-                        ))}
-                    </ul>
+                    <div className="overflow-x-auto">
+                        <table className="table table-zebra">
+                            {/* head */}
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Data</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {/* row 1 */}
+                                {
+                                    donors.map((donor, idx) =>
+                                        <tr key={donor._id}>
+                                            <th>{idx + 1}</th>
+                                            <td>
+                                                <div className="flex items-center gap-3">
+                                                    <div className="avatar">
+                                                        <div className="mask mask-squircle h-12 w-12">
+                                                            <img src={donor.image} />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{donor.name}</td>
+                                            <td>{donor.email}</td>
+                                            <td>{donor.date}</td>
+                                        </tr>)
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 ) : (
                     <p className="text-gray-500">No donors found. Please refine your search.</p>
                 )}

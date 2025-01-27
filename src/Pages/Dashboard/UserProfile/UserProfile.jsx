@@ -9,7 +9,7 @@ const UserProfile = () => {
     const { user, updateUser, setLoading } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [isEditable, setIsEditable] = useState(false);
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
 
     const { data: profile = [], refetch } = useQuery({
         queryKey: ["profile"],
@@ -38,8 +38,8 @@ const UserProfile = () => {
                                 timer: 1500
                             });
                             refetch();
-                            setLoading(false);
                             setIsEditable(false);
+                            setLoading(false);
                         }
 
                     })
@@ -54,7 +54,6 @@ const UserProfile = () => {
             });
 
     };
-
     return (
         <div className="container mx-auto p-6 bg-white rounded-lg shadow-lg max-w-3xl">
             <h2 className="text-2xl font-bold text-center mb-6">Update User Profile</h2>
@@ -165,6 +164,7 @@ const UserProfile = () => {
                     <label className="text-lg">Blood Group</label>
                     <select
                         value={profile?.bloodGroup || ""}
+                        onChange={(e) => setValue("bloodGroup", e.target.value)} // or update the state if needed
                         {...register("bloodGroup", { required: "Blood group is required" })}
                         disabled={!isEditable}
                         className={`select select-bordered ${isEditable ? "border-blue-500" : "border-gray-300"} outline-none`}

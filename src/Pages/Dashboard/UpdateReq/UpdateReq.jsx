@@ -16,12 +16,14 @@ const UpdateReq = () => {
     const [selectedUpjela, setSelectedUpjela] = useState('');
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     useEffect(() => {
         fetch("/districts.json")
             .then((res) => res.json())
-            .then((data) => setDistricts(data));
+            .then((data) => {
+                setDistricts(data);
+            });
     }, []);
 
     useEffect(() => {
@@ -67,10 +69,23 @@ const UpdateReq = () => {
                 });
         }
     };
-
+    useEffect(() => {
+        if (recipientName || district || upajela || hospitalName || fullAddress || bloodGroup || donationDate || donationtime || requestMessage) {
+            reset({
+                recipientName,
+                district,
+                upajela,
+                hospitalName,
+                fullAddress,
+                bloodGroup,
+                donationDate,
+                donationTime: donationtime,
+                requestMessage
+            });
+        }
+    }, [reset, recipientName, district, upajela, hospitalName, fullAddress, bloodGroup, donationDate, donationtime, requestMessage]);
     const onSubmit = (data) => {
         console.log(selectedUpjela);
-
 
         const reqInfo = {
             name: user?.displayName || "",

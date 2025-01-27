@@ -61,11 +61,11 @@ const UserHome = () => {
             }
         });
     };
-
+    console.log(donations);
     return (
         <div>
             <h3 className="text-3xl">Welcome back, <strong>{user?.displayName}</strong></h3>
-            {donations && <>
+            {donations.length > 0 && <>
                 <div className="container mx-auto p-6">
                     <h2 className="text-3xl font-semibold text-center mb-6">Recent Donation Requests</h2>
 
