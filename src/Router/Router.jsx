@@ -19,6 +19,8 @@ import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import DonationRequest from "../Pages/DonationRequest/DonationRequest";
 import DetailsPage from "../Pages/DonationRequest/DetailsPage";
+import BlogPage from "../Pages/BlogPage/BlogPage";
+import BlogDetails from "../Pages/BlogPage/BlogDetails";
 
 
 const router = createBrowserRouter([
@@ -38,6 +40,15 @@ const router = createBrowserRouter([
                 path: '/donation-request/:id',
                 element: <PrivateRoute><DetailsPage></DetailsPage></PrivateRoute>,
                 loader: ({ params }) => fetch(`http://localhost:5000/bloodReq/${params.id}`)
+            },
+            {
+                path: '/blog',
+                element: <BlogPage></BlogPage>,
+            },
+            {
+                path: '/blog-details/:id',
+                element: <BlogDetails></BlogDetails>,
+                loader: ({ params }) => fetch(`http://localhost:5000/blog/${params.id}`)
             },
             {
                 path: '/login',

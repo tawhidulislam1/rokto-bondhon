@@ -19,7 +19,7 @@ const Navbar = () => {
     const links = <>
         <li><NavLink to={'/'}>Home</NavLink></li>
         <li><NavLink to={'/donation-request'}>donation requests</NavLink></li>
-        <li><a>blog</a></li>
+        <li><NavLink to={"/blog"}>blog</NavLink></li>
         <li><a>Funding</a></li>
         <li><a> Search Donors</a></li>
     </>;
