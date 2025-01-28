@@ -30,7 +30,7 @@ const Login = () => {
                     icon: "error",
                     draggable: true
                 });
-            })
+            });
 
     };
     return (

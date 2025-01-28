@@ -9,7 +9,7 @@ const UserProfile = () => {
     const { user, updateUser, setLoading } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [isEditable, setIsEditable] = useState(false);
-    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     const { data: profile = [], refetch } = useQuery({
         queryKey: ["profile"],
@@ -163,13 +163,17 @@ const UserProfile = () => {
                 <div className="flex flex-col">
                     <label className="text-lg">Blood Group</label>
                     <select
-                        value={profile?.bloodGroup || ""}
-                        onChange={(e) => setValue("bloodGroup", e.target.value)} // or update the state if needed
-                        {...register("bloodGroup", { required: "Blood group is required" })}
-                        disabled={!isEditable}
-                        className={`select select-bordered ${isEditable ? "border-blue-500" : "border-gray-300"} outline-none`}
+                        className="select select-bordered border-gray-300"
+                        name="bloodGroup"
+                        defaultValue={profile?.bloodGroup || ""}
+                        {...register("bloodGroup", { required: true })}
+                        required
                     >
-                        <option value="">Select Blood Group</option>
+                        {errors.bloodGroup && <span className="text-red-700"> field is required</span>}
+
+                        <option value="default" disabled>
+                            Choose a blood group
+                        </option>
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
                         <option value="B+">B+</option>
@@ -179,6 +183,7 @@ const UserProfile = () => {
                         <option value="O+">O+</option>
                         <option value="O-">O-</option>
                     </select>
+
 
                     {errors.bloodGroup && <span className="text-red-600">{errors.bloodGroup.message}</span>}
                 </div>
