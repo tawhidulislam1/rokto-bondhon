@@ -1,10 +1,8 @@
-It looks like you have a React-based project using Vite, Tailwind CSS, Firebase, Stripe, and various other dependencies. Below is a well-structured `README.md` file based on the provided dependencies.
 
----
 
-# Project Title
+# Rokto-bondhon
 
-**Short description of the project.** *(Replace this with an actual description of your project.)*
+**Roktho Bondhon is a blood donation management platform designed to connect donors, volunteers, and administrators. Donors can request blood, donate blood, and contribute funds to support the organization. Volunteers have limited control options to assist in operations, while admins have full control over the system to manage all activities efficiently*
 
 ## Table of Contents
 
@@ -39,7 +37,7 @@ This project is a modern **React** application built using **Vite**, styled with
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/your-username/your-project.git
+   git clone [https://github.com/your-username/your-project.git](https://github.com/tawhidulislam1/rokto-bondhon.git)
    cd your-project
    ```
 
