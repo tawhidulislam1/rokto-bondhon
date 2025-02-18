@@ -17,7 +17,7 @@ const BlogPage = () => {
                 {
                     blogs.map((blog, idx) => <div key={idx}>
                         <div className="card card-compact bg-[#FDEDEC] shadow-xl">
-                            <figure>
+                            <figure className="h-40">
                                 <img
                                     src={blog.image}
                                     alt="Shoes" />

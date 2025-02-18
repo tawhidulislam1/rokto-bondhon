@@ -2,6 +2,8 @@ import About from "./Components/About";
 import Contact from "./Components/Contact";
 import Featured from "./Components/Featured";
 import Header from "./Components/Header";
+import LastestBlog from "./Components/LastestBlog";
+import Stats from "./Components/Stats";
 
 const Homepage = () => {
     return (
@@ -15,6 +17,13 @@ const Homepage = () => {
             <section>
                 <Featured></Featured>
             </section>
+            <section>
+                <Stats></Stats>
+            </section>
+            <section>
+                <LastestBlog></LastestBlog>
+            </section>
+
             <section>
                 <Contact></Contact>
             </section>
