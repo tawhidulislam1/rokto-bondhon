@@ -11,7 +11,7 @@ const CreateReq = () => {
     const [selectedDistrict, setSelectedDistrict] = useState(null);
     const [upjelas, setUpjelas] = useState([]);
     const [selectedUpjela, setSelectedUpjela] = useState('');
-    const [profile, setProfile] = useState({});
+    const [profile, setProfile] = useState(null);
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -42,11 +42,12 @@ const CreateReq = () => {
     useEffect(() => {
         axiosSecure.get(`/user/profile/${user?.email}`)
             .then(res => {
+                console.log(res.data);
                 setProfile(res.data);
             });
-    }, []);
+    }, [axiosSecure, user?.email]);
 
-    console.log(profile.status);
+    console.log(user?.email);
     const onSubmit = (data) => {
         console.log(selectedUpjela);
         if (profile?.status === "active") {

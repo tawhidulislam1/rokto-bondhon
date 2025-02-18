@@ -37,17 +37,12 @@ const DonorSearch = () => {
     const { data: users = [] } = useQuery({
         queryKey: ["user"],
         queryFn: async () => {
-            const res = await axiosPublic.get("user");
+            const res = await axiosPublic.get("/user");
             return res.data;
         },
     });
     const handleSearch = () => {
-        // Simulate a donor search (Replace this with actual API call logic)
-        // const mockDonors = [
-        //     { name: "John Doe", bloodGroup: "A+", district: "Dhaka", upazila: "Gulshan" },
-        //     { name: "Jane Smith", bloodGroup: "O+", district: "Chittagong", upazila: "Patiya" },
-        // ];
-
+      
 
         const filteredDonors = users.filter(
             (donor) =>

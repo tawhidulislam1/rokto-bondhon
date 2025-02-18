@@ -12,7 +12,7 @@ const Header = () => {
             <div className="hero-overlay bg-opacity-60"></div>
             <div className="hero-content text-neutral-content text-center">
                 <div className="max-w-3xl">
-                    <h1 className="mb-5 text-5xl font-bold">SMS-based platform to connect blood searchers with donors</h1>
+                    <h1 className="mb-5 text-3xl lg:text-5xl font-bold">SMS-based platform to connect blood searchers with donors</h1>
                     <p className="mb-5">
                         Rokto-bondhon is a real-time free platform to help blood searchers connect voluntary blood donors around Bangladesh.
                     </p>

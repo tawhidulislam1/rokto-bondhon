@@ -4,11 +4,11 @@ import Footer from "../Pages/Shared/Footer";
 
 const HomeLayout = () => {
     return (
-        <div className="w-11/12 mx-auto max-w-7xl">
+        <div >
 
             <Navbar></Navbar>
 
-            <main >
+            <main className="w-11/12 mx-auto max-w-7xl mt-24">
                 <Outlet ></Outlet>
             </main>
             <footer>
