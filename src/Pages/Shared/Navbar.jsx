@@ -3,6 +3,7 @@ import { MdBloodtype } from "react-icons/md";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
+import '../../../src/index.css';
 import { FaSignOutAlt } from "react-icons/fa";
 const Navbar = () => {
     const { user, logOut } = useAuth();
@@ -25,7 +26,7 @@ const Navbar = () => {
     </>;
     return (
         <div className="navbar text-white bg-[#DC143C]  fixed w-full top-0 left-0 h-[90px] z-50">
-            <div className="navbar-start">
+            <div className="navbar-start pl-2">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
                         <svg
@@ -47,14 +48,14 @@ const Navbar = () => {
                         {links}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl"><MdBloodtype />Roktho Bondhon</a>
+                <Link to={'/'} className="text-xl flex items-center"><MdBloodtype />Roktho Bondhon</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
                     {links}
                 </ul>
             </div>
-            <div className="navbar-end">
+            <div className="navbar-end pr-2">
                 {
                     user ? <>
                         <>
