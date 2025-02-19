@@ -29,7 +29,7 @@ const DonationRequest = () => {
                 <h3 className="text-3xl">All Donation Request</h3>
 
             </div>
-            <div className="flex justify-end mb-4 gap-4">
+            <div className="flex lg:justify-end mb-4 gap-4 mt-3">
                 <button
                     onClick={handleSortOld}
                     className="px-4 py-2 text-xs bg-[#DC143C] text-white rounded hover:bg-[#d34864]"
