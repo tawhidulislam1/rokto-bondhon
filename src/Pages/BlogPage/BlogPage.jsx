@@ -13,6 +13,10 @@ const BlogPage = () => {
     });
     return (
         <div className="my-10">
+            <div>
+                <h2 className="text-center text-[#2E2E2E] text-3xl font-semibold dark:text-gray-200">All Blog</h2>
+                <p className="text-center py-3"></p>
+            </div>
             <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                 {
                     blogs.map((blog, idx) => <div key={idx}>
@@ -23,8 +27,8 @@ const BlogPage = () => {
                                     alt="Shoes" />
                             </figure>
                             <div className="card-body">
-                                <h2 className="card-title">{blog.title}</h2>
-                                <div dangerouslySetInnerHTML={{ __html: blog.description }} />
+                                <h2 className="card-title dark:text-gray-800">{blog.title}</h2>
+                                <div className="dark:text-gray-700" dangerouslySetInnerHTML={{ __html: blog.description }} />
 
                                 <div className="card-actions justify-end">
                                     <Link to={`/blog-details/${blog._id}`}>

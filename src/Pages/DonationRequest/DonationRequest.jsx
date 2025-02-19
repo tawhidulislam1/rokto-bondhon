@@ -61,11 +61,11 @@ const DonationRequest = () => {
                         {requests.map((donation, idx) => (
                             <tr key={donation._id}>
                                 <th>{idx + 1}</th>
-                                <td>{donation.recipientName}</td>
-                                <td>{donation.district},{donation.upajela}</td>
-                                <td>{donation.bloodGroup}</td>
-                                <td>{donation.donationDate}</td>
-                                <td>{donation.donationtime} </td>
+                                <td className="dark:text-white">{donation.recipientName}</td>
+                                <td  className="dark:text-gray-200">{donation.district},{donation.upajela}</td>
+                                <td  className="dark:text-gray-200">{donation.bloodGroup}</td>
+                                <td  className="dark:text-gray-200">{donation.donationDate}</td>
+                                <td  className="dark:text-gray-200">{donation.donationtime} </td>
                                 <td>
 
                                     <Link to={`/donation-request/${donation._id}`}>

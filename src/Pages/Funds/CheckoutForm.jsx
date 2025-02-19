@@ -110,7 +110,7 @@ const CheckoutForm = () => {
             <form onSubmit={handleSubmit}>
                 <div className="form-control py-5" >
                     <label className="label">
-                        <span className="label-text text-gray-700 font-medium">Amount</span>
+                        <span className="label-text text-gray-700 font-medium dark:text-white"  >Amount</span>
                     </label>
                     <input
                         type="number"
@@ -126,6 +126,7 @@ const CheckoutForm = () => {
                             base: {
                                 fontSize: '16px',
                                 color: '#424770',
+                                dark:'#fff',
                                 '::placeholder': {
                                     color: '#aab7c4',
                                 },

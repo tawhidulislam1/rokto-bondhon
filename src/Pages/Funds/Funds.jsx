@@ -37,10 +37,10 @@ const Funds = () => {
                         {
                             funds.map((fund, idx) =>
                                 <tr key={fund._id}>
-                                    <th>{idx + 1}</th>
-                                    <td>{fund.name}</td>
-                                    <td>{fund.price}</td>
-                                    <td>{fund.date}</td>
+                                    <th className="dark:text-gray-200">{idx + 1}</th>
+                                    <td className="dark:text-gray-200">{fund.name}</td>
+                                    <td className="dark:text-gray-200">{fund.price}</td>
+                                    <td className="dark:text-gray-200">{fund.date}</td>
                                 </tr>)
                         }
                     </tbody>

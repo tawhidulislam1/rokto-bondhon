@@ -115,7 +115,7 @@ const Register = () => {
                                 name="email"
                                 {...register("email", { required: true })}
                                 placeholder="Enter your email"
-                                className="input input-bordered border-gray-300 outline-none"
+                                className="input input-bordered border-gray-300 outline-none dark:bg-white dark:text-black"
                                 required
                             />
                             {errors.email && <span className="text-red-700">field is required</span>}
@@ -129,20 +129,20 @@ const Register = () => {
                                 name="name"
                                 {...register("name", { required: true })}
                                 placeholder="Enter your name"
-                                className="input input-bordered border-gray-300 outline-none"
+                                className="input input-bordered border-gray-300 outline-none dark:bg-white dark:text-black"
                                 required
                             />
                             {errors.name && <span className="text-red-700">Name field is required</span>}
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text text-gray-700 font-medium">Image</span>
+                                <span className="label-text text-gray-700 font-medium ">Image</span>
                             </label>
                             <input
                                 type="file"
                                 name="image"
                                 {...register("image", { required: true })}
-                                className="input input-bordered border-gray-300 outline-none"
+                                className="input input-bordered border-gray-300 outline-none dark:bg-white dark:text-black"
                                 required
                             />
                             {errors.image && <span className="text-red-700"> field is required</span>}
@@ -154,7 +154,7 @@ const Register = () => {
                                 <span className="label-text text-gray-700 font-medium">Select Your Blood Group</span>
                             </label>
                             <select
-                                className="select select-bordered border-gray-300"
+                                className="select select-bordered border-gray-300  dark:bg-white dark:text-black"
                                 name="bloodGroup"
                                 defaultValue={"default"}
                                 {...register("bloodGroup", { required: true })}
@@ -183,7 +183,7 @@ const Register = () => {
                                 </span>
                             </label>
                             <select
-                                className="select select-bordered border-gray-300"
+                                className="select select-bordered border-gray-300  dark:bg-white dark:text-black"
                                 name="district"
                                 defaultValue={"default"}
                                 {...register("district", { required: true })}
@@ -216,7 +216,7 @@ const Register = () => {
                                 {...register("upajela", { required: true })}
                                 onChange={(e) => setSelectedUpjela(e.target.value)}
                                 disabled={!selectedDistrict}
-                                className="select select-bordered border-gray-300"
+                                className="select select-bordered border-gray-300 dark:bg-white dark:text-black"
                             >
                                 {errors.upajela && <span className="text-red-700"> field is required</span>}
 
@@ -238,7 +238,7 @@ const Register = () => {
                                 name="password"
                                 {...register("password", { required: true })}
                                 placeholder="Enter your password"
-                                className="input input-bordered border-gray-300 outline-none"
+                                className="input input-bordered border-gray-300 outline-none dark:bg-white dark:text-black"
                                 required
                             />
                             {errors.password && <span className="text-red-700"> field is required</span>}
@@ -257,7 +257,7 @@ const Register = () => {
                                         value === password || "Passwords do not match",
                                 })}
                                 placeholder="Enter your password"
-                                className="input input-bordered border-gray-300 outline-none"
+                                className="input input-bordered border-gray-300 outline-none  dark:bg-white dark:text-black"
                                 required
                             />
                             {errors.confo_password && <span className="text-red-700"> Please confirm your password</span>}

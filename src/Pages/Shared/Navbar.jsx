@@ -5,8 +5,10 @@ import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
 import '../../../src/index.css';
 import { FaSignOutAlt } from "react-icons/fa";
+import { useState } from "react";
 const Navbar = () => {
     const { user, logOut } = useAuth();
+    const [isDarkMode, setIsDarkMode] = useState(false);
     const handleLogOut = () => {
         logOut()
             .then(() => {
@@ -24,6 +26,20 @@ const Navbar = () => {
         <li><NavLink to={"/funding"}>Funding</NavLink></li>
         <li><NavLink to={"search"}> Search Donors</NavLink></li>
     </>;
+    const handleThemeToggle = () => {
+        const newTheme = isDarkMode ? "light" : "dark";
+        setIsDarkMode(!isDarkMode);
+
+        // Apply theme to the root element
+        if (newTheme === "dark") {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+
+        // Save preference in localStorage
+        localStorage.setItem("theme", newTheme);
+    };
     return (
         <div className="navbar text-white bg-[#DC143C]  fixed w-full top-0 left-0 h-[90px] z-50">
             <div className="navbar-start pl-2">
@@ -56,6 +72,18 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end pr-2">
+                <div>
+                    <label className="grid cursor-pointer place-items-center">
+                        <input
+                            type="checkbox"
+                            value="dark"
+                            className="toggle theme-controller bg-base-content col-span-2 col-start-1"
+                            checked={isDarkMode}
+                            onChange={handleThemeToggle}
+                        />
+                       
+                    </label>
+                </div>
                 {
                     user ? <>
                         <>
@@ -83,7 +111,7 @@ const Navbar = () => {
                             </div>
                         </>
                     </> : <>
-                        <Link to={'/login'}> <button className="btn">Login</button></Link>
+                        <Link to={'/login'}> <button className="btn  bg-[#ffffff] text-[#DC143C]">Login</button></Link>
                     </>
                 }
 

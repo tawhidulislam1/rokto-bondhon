@@ -57,7 +57,7 @@ const DonorSearch = () => {
 
     return (
         <div className="p-4 max-w-lg mx-auto">
-            <h2 className="text-2xl font-semibold mb-4">Search Blood Donors</h2>
+            <h2 className="text-2xl font-semibold mb-4  dark:text-white">Search Blood Donors</h2>
 
             <form
                 onSubmit={(e) => {
@@ -67,7 +67,7 @@ const DonorSearch = () => {
                 className="space-y-4"
             >
                 <div>
-                    <label className="block text-sm font-medium mb-1">Blood Group</label>
+                    <label className="block text-sm font-medium mb-1  dark:text-white">Blood Group</label>
                     <select
                         value={bloodGroup}
                         onChange={(e) => setBloodGroup(e.target.value)}
@@ -87,7 +87,7 @@ const DonorSearch = () => {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium mb-1">District</label>
+                    <label className="block text-sm font-medium mb-1  dark:text-white">District</label>
                     <select
                         className="w-full border rounded-lg p-2"
                         value={selectedDistrict.name || ""}
@@ -104,7 +104,7 @@ const DonorSearch = () => {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium mb-1">Upazila</label>
+                    <label className="block text-sm font-medium mb-1  dark:text-white">Upazila</label>
                     <select
                         value={selectedUpazila}
                         onChange={(e) => setSelectedUpazila(e.target.value)}
@@ -122,7 +122,7 @@ const DonorSearch = () => {
 
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+                    className="w-full bg-[#DC143C] text-white py-2 rounded-lg hover:bg-[#cf3131]"
                 >
                     Search
                 </button>
@@ -140,7 +140,7 @@ const DonorSearch = () => {
                                     <th>Image</th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>Data</th>
+                                    {/* <th>Data</th> */}
                                 </tr>
                             </thead>
                             <tbody>
@@ -160,7 +160,7 @@ const DonorSearch = () => {
                                             </td>
                                             <td>{donor.name}</td>
                                             <td>{donor.email}</td>
-                                            <td>{donor.date}</td>
+                                            {/* <td>{donor.date}</td> */}
                                         </tr>)
                                 }
                             </tbody>

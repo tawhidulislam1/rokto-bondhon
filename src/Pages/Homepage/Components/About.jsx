@@ -5,7 +5,7 @@ import useAuth from "../../../Hooks/useAuth";
 const About = () => {
     const { user } = useAuth();
     return (
-        <div>
+        <div className="my-5">
             <section className="bg-base-200 py-12">
                 <div className="container mx-auto px-6 lg:px-16">
                     <div className="flex flex-col lg:flex-row items-center">
@@ -21,13 +21,13 @@ const About = () => {
                         {/* Right Side - Text */}
                         <div className="lg:w-1/2 lg:pl-12 mt-8 lg:mt-0">
                             <h2 className="text-3xl font-bold text-[#DC143C]">About Roktho Bondhon</h2>
-                            <p className="mt-4 text-gray-600">
+                            <p className="mt-4 text-gray-600 dark:text-gray-200">
                                 Roktho Bondhon is a platform dedicated to saving lives by
                                 connecting blood donors with those in need. Our mission is to
                                 create a community where finding blood donors is quick, easy,
                                 and accessible for everyone.
                             </p>
-                            <p className="mt-2 text-gray-600">
+                            <p className="mt-2 text-gray-600 dark:text-gray-300">
                                 Join us in making a difference—one donation at a time.
                             </p>
 

@@ -15,12 +15,12 @@ const LastestBlog = () => {
         },
     });
     return (
-        <div>
+        <div className="my-10">
             <div>
-                <h2 className="text-center text-[#2E2E2E] text-3xl font-semibold">Lastest Blog</h2>
+                <h2 className="text-center text-[#2E2E2E] text-3xl font-semibold dark:text-gray-200">Lastest Blog</h2>
                 <p className="text-center py-3"></p>
             </div>
-            <div className="my-10">
+            <div >
                 <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                     {blogs.map((blog, idx) => {
                         const words = blog.description.split(" ");
@@ -36,12 +36,12 @@ const LastestBlog = () => {
                                     />
                                 </figure>
                                 <div className="card-body">
-                                    <h2 className="card-title">{blog.title}</h2>
-                                    <div dangerouslySetInnerHTML={{ __html: shortDescription }} />
+                                    <h2 className="card-title dark:text-gray-800">{blog.title}</h2>
+                                    <div className="dark:text-gray-700" dangerouslySetInnerHTML={{ __html: shortDescription }} />
 
                                     <div className="card-actions justify-end">
                                         <Link to={`/blog-details/${blog._id}`}>
-                                            <button className="btn btn-primary">Read More</button>
+                                            <button className="btn bg-[#DC143C] text-white border-none">Read More</button>
                                         </Link>
                                     </div>
                                 </div>

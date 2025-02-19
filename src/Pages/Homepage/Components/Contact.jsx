@@ -26,7 +26,7 @@ const Contact = () => {
                                 <input
                                     type="text"
                                     placeholder="Enter your name"
-                                    className="input input-bordered w-full"
+                                    className="input input-bordered w-full bg-white"
                                 />
                             </div>
                             {/* Email Field */}
@@ -37,7 +37,7 @@ const Contact = () => {
                                 <input
                                     type="email"
                                     placeholder="Enter your email"
-                                    className="input input-bordered w-full"
+                                    className="input input-bordered w-full bg-white"
                                 />
                             </div>
                             {/* Message Field */}
@@ -47,11 +47,11 @@ const Contact = () => {
                                 </label>
                                 <textarea
                                     placeholder="Enter your message"
-                                    className="textarea textarea-bordered w-full h-32"
+                                    className="textarea textarea-bordered w-full h-32 bg-white"
                                 ></textarea>
                             </div>
                             {/* Submit Button */}
-                            <button className="btn btn-primary w-full bg-[#DC143C] hover:bg-red-700 text-white">
+                            <button className="btn border-none w-full bg-[#DC143C] hover:bg-red-700 text-white">
                                 Send Message
                             </button>
                         </form>

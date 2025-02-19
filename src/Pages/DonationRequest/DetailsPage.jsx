@@ -49,7 +49,7 @@ const DetailsPage = () => {
 
     };
     return (
-        <div className="my-10">
+        <div className="my-14">
             <div className="bg-gray-800 text-white p-6 rounded-2xl shadow-lg border border-[#dc143c] w-full max-w-lg mx-auto">
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-2xl font-bold text-[#dc143c]">{name}</h2>
@@ -124,7 +124,7 @@ const DetailsPage = () => {
                     <form onSubmit={handleSubmit}>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text text-gray-700 font-medium">Email</span>
+                                <span className="label-text text-gray-700 font-medium dark:text-white">Email</span>
                             </label>
                             <input
                                 type="text"
@@ -138,14 +138,14 @@ const DetailsPage = () => {
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text text-gray-700 font-medium">Email</span>
+                                <span className="label-text text-gray-700 font-medium dark:text-white">Email</span>
                             </label>
                             <input
                                 type="email"
                                 name="email"
                                 defaultValue={user.email}
                                 placeholder="Enter your email"
-                                className="input input-bordered border-gray-300 outline-none"
+                                className="input input-bordered border-gray-300 outline-none "
                                 required
                                 readOnly
 
