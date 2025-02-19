@@ -18,7 +18,7 @@ const Header = () => {
                     </p>
                     <div className="flex gap-5 justify-center">
                         <Link to={user?.email ? "/dashboard/profile" : "/login"}>
-                            <button className="btn bg-[#DC143C] border-none text-white hover:text-[#DC143C]">Join As A Donor</button>
+                            <button className="btn bg-[] border-none text-white hover:text-[#DC143C]">Join As A Donor</button>
                         </Link>
                         <Link to={'/search'}>
                             <button className="btn bg-white border-none text-[#DC143C] hover:bg-[#DC143C] hover:text-white">Search Donors</button></Link>

@@ -17,7 +17,7 @@ const LastestBlog = () => {
     return (
         <div>
             <div>
-                <h2 className="text-center text-[#2E2E2E] text-3xl font-semibold">Lastest</h2>
+                <h2 className="text-center text-[#2E2E2E] text-3xl font-semibold">Lastest Blog</h2>
                 <p className="text-center py-3"></p>
             </div>
             <div className="my-10">
