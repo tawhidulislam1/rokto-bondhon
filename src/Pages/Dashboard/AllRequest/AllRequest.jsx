@@ -8,6 +8,7 @@ import { useState } from "react";
 const AllRequest = () => {
     const AxiosSecure = useAxiosSecure();
     const [selectedDonation, setSelectedDonation] = useState(null);
+    const [requests, setRequest] = useState([]);
 
     const [isAdmin] = useAdmin();
     // Fetch all users
@@ -15,6 +16,7 @@ const AllRequest = () => {
         queryKey: ["user"],
         queryFn: async () => {
             const res = await AxiosSecure.get(`/bloodReq`);
+            setRequest(res.data);
             return res.data;
         },
     });
@@ -59,9 +61,31 @@ const AllRequest = () => {
             }
         });
     };
+    const handleSortOld = () => {
+        const sortedCampaigns = [...donations].sort((a, b) => new Date(a.donationDate) - new Date(b.donationDate));
+        setRequest(sortedCampaigns);
+    };
+    const handleSortnew = () => {
+        const sortedCampaigns = [...donations].sort((a, b) => new Date(b.donationDate) - new Date(a.donationDate));
+        setRequest(sortedCampaigns);
+    };;
     return (
         <div className="container mx-auto p-6">
             <h2 className="text-3xl font-semibold text-center mb-6">All Donation Requests</h2>
+            <div className="flex justify-end mb-4 gap-4">
+                <button
+                    onClick={handleSortOld}
+                    className="px-4 py-2 text-xs bg-[#DC143C] text-white rounded hover:bg-[#d34864]"
+                >
+                    Sort by old Date
+                </button>
+                <button
+                    onClick={handleSortnew}
+                    className="px-4 py-2 text-xs bg-[#DC143C] text-white rounded hover:bg-[#d34864]"
+                >
+                    Sort by New Date
+                </button>
+            </div>
 
             <table className="table-auto w-full border-collapse">
                 <thead>
@@ -79,7 +103,7 @@ const AllRequest = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {donations.map((donation, index) => (
+                    {requests.map((donation, index) => (
                         <tr key={index} className="hover:bg-gray-100">
                             <td className="px-4 py-2 border">{donation.recipientName}</td>
                             <td className="px-4 py-2 border">

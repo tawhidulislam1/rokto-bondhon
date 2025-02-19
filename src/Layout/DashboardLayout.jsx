@@ -21,7 +21,7 @@ const DashboardLayout = () => {
         <div>
             <div className="flex flex-col sm:flex-row">
                 {/* Sidebar */}
-                <div className={`w-full sm:w-64 min-h-screen bg-orange-400 transition-all ${isSidebarOpen ? 'block' : 'hidden'} sm:block`}>
+                <div className={`w-full sm:w-64 min-h-screen bg-[#DC143C] text-white transition-all ${isSidebarOpen ? 'block' : 'hidden'} sm:block`}>
                     <ul className="menu">
                         {isAdmin ? (
                             <>

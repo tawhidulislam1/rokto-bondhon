@@ -24,6 +24,7 @@ import BlogDetails from "../Pages/BlogPage/BlogDetails";
 import Dashboard from "../Pages/Dashboard/Dashboard/Dashboard";
 import Funds from "../Pages/Funds/Funds";
 import DonorSearch from "../Pages/DonorSearch/DonorSearch";
+import ErrorPage from "../Pages/Error/ErrorPage";
 
 
 const router = createBrowserRouter([
@@ -120,7 +121,12 @@ const router = createBrowserRouter([
                 element: <AdminRoute> <AddBlog></AddBlog></AdminRoute>
             },
         ]
-    }
+    },
+
+    {
+        path: "*",
+        element: <ErrorPage></ErrorPage>,
+    },
 ]);
 
 export default router;
