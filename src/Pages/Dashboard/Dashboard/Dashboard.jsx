@@ -114,7 +114,6 @@ const Dashboard = () => {
                     </div></div>
             </div>
 
-            {/* Blood Group Pie Chart */}
 
 
         </div>

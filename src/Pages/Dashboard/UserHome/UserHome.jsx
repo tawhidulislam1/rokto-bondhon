@@ -3,6 +3,8 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { CiSquareQuestion } from "react-icons/ci";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend, CartesianGrid, BarChart, XAxis, YAxis, Bar } from "recharts";
 const UserHome = () => {
     const { user } = useAuth();
     const AxiosSecure = useAxiosSecure();
@@ -61,10 +63,79 @@ const UserHome = () => {
             }
         });
     };
-    console.log(donations);
+    const axiosSecure = useAxiosSecure();
+
+    const { data: stats = {} } = useQuery({
+        queryKey: ["admin-states"],
+        queryFn: async () => {
+            const res = await axiosSecure.get("/admin-states");
+            return res.data;
+        },
+    });
+
+    const bloodGroupData = stats.bloodGroups
+        ? Object.entries(stats.bloodGroups).map(([group, count]) => ({
+            name: group,
+            value: count,
+        }))
+        : [];
+
+    // Dynamically Generate Colors for Each Blood Group
+    const generateColors = (length) => {
+        const colors = ["#DC143C", "#FF6347", "#FFD700", "#32CD32", "#4169E1", "#8A2BE2", "#FF4500", "#00CED1"];
+        return Array.from({ length }, (_, i) => colors[i % colors.length]); // Repeat colors if needed
+    };
+
+    const COLORS = generateColors(bloodGroupData.length);
+    const requestStatusData = stats.requestStatus
+        ? Object.entries(stats.requestStatus).map(([status, count]) => ({
+            name: status.charAt(0).toUpperCase() + status.slice(1),  // Capitalize the status name
+            count,
+        }))
+        : [];
     return (
         <div>
             <h3 className="text-3xl">Welcome back, <strong>{user?.displayName}</strong></h3>
+            <div className="lg:flex">
+                <div className="lg:w-1/2">
+                    <div className="bg-white p-6 rounded-lg shadow-lg">
+                        <h2 className="text-xl font-semibold mb-4">Donor Blood Group Distribution</h2>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <PieChart>
+                                <Pie
+                                    data={bloodGroupData}
+                                    cx="50%"
+                                    cy="50%"
+                                    outerRadius={100}
+                                    fill="#DC143C"
+                                    dataKey="value"
+                                    label
+                                >
+                                    {bloodGroupData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip />
+                                <Legend />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+                <div className="lg:w-1/2">
+                    <div className="bg-white p-6 rounded-lg shadow-lg">
+                        <h2 className="text-xl font-semibold mb-4">Donation Request Status</h2>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <BarChart data={requestStatusData}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip />
+                                <Legend />
+                                <Bar dataKey="count" fill="#8884d8" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div></div>
+            </div>
             {donations.length > 0 && <>
                 <div className="container mx-auto p-6">
                     <h2 className="text-3xl font-semibold text-center mb-6">Recent Donation Requests</h2>
